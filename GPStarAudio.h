@@ -87,21 +87,21 @@ public:
   void start(void);
   void update(void);
   void flush(void);
-  int getNumTracks(void);
-  void masterGain(int gain);
+  uint16_t getNumTracks(void);
+  void masterGain(int16_t gain);
   void stopAllTracks(void);
-  void trackPlaySolo(int trk);
-  void trackPlaySolo(int trk, bool lock);
-  void trackPlay(int trk);
-  void trackPlay(int trk, bool lock);
-  void trackStop(int trk);
-  void trackPause(int trk);
-  void trackResume(int trk);
-  void trackLoop(int trk, bool enable);
-  void trackGain(int trk, int gain);
-  void trackFade(int trk, int gain, int time, bool stopFlag);
-  void trackPlayingStatus(int trk);
-  bool currentTrackStatus(int trk);
+  void trackPlaySolo(uint16_t trk);
+  void trackPlaySolo(uint16_t trk, bool lock);
+  void trackPlay(uint16_t trk);
+  void trackPlay(uint16_t trk, bool lock);
+  void trackStop(uint16_t trk);
+  void trackPause(uint16_t trk);
+  void trackResume(uint16_t trk);
+  void trackLoop(uint16_t trk, bool enable);
+  void trackGain(uint16_t trk, int16_t gain);
+  void trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag);
+  void trackPlayingStatus(uint16_t trk);
+  bool currentTrackStatus(uint16_t trk);
   void serialFlush(void);
   void hello(void);
   void gpstarLEDStatus(bool status);
@@ -110,8 +110,8 @@ public:
   bool gpstarAudioHello(void);
 
 private:
-  void trackControl(int trk, int code);
-  void trackControl(int trk, int code, bool lock);
+  void trackControl(uint16_t trk, uint8_t code);
+  void trackControl(uint16_t trk, uint8_t code, bool lock);
 
   #ifdef __GPSTAR_AUDIO_USE_ALTSOFTSERIAL__
     AltSoftSerial GPStarSerial;
@@ -123,7 +123,7 @@ private:
   uint8_t rxCount;
   uint8_t rxLen;
   bool rxMsgReady;
-  int currentTrack;
+  uint16_t currentTrack;
   bool b_currentTrackStatus;
   bool trackCounter;
   bool gpstarHello;
