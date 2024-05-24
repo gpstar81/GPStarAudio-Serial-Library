@@ -71,7 +71,7 @@ Example code can be found in the example folder in how to use this library.
 
 **GPStarAudio.trackPlayingStatus(int trk)** - This will ask GPStar Audio if the provided track number is playing. After calling this method, call the `GPStarAudio.currentTrackStatus(int trk)` method to find out if the track is playing or not.
   
-**GPStarAudio.currentTrackStatus(int trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayinStatus(int trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
+**GPStarAudio.currentTrackStatus(int trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayingStatus(int trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
 
 ## <img src='images/gpstar_logo.png' width=50 align="left"/>GPStar Audio - Connection Details
  
