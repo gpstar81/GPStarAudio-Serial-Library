@@ -149,6 +149,7 @@ void gpstarAudio::update(void) {
         break;
 
         case RSP_SYSTEM_INFO:
+          // WT.
           numVoices = rxMessage[1];
           numTracks = rxMessage[3];
           numTracks = (numTracks << 8) + rxMessage[2];
@@ -488,7 +489,7 @@ void gpstarAudio::requestVersionString(void) {
   txbuf[0] = SOM1;
   txbuf[1] = SOM2;
   txbuf[2] = 0x05;
-  txbuf[3] = CMD_GET_GPSTAR_HELLO;
+  txbuf[3] = CMD_GET_VERSION;
   txbuf[4] = EOM;
   GPStarSerial->write(txbuf, 5);
 }
