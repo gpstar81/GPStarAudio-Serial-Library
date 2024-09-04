@@ -22,16 +22,7 @@
  */
 
 #pragma once
-
-#ifndef __GPSTAR_PRESET__
-  // ------------------------------------------------
-  // Uncomment only the serial class you wish to use.
-  #define __GPSTAR_AUDIO_USE_ALTSOFTSERIAL__
-  //#define __GPSTAR_AUDIO_USE_SERIAL1__
-  //#define __GPSTAR_AUDIO_USE_SERIAL2__
-  //#define __GPSTAR_AUDIO_USE_SERIAL3__
-  // ------------------------------------------------
-#endif
+#include "Arduino.h"
 
 #define CMD_GET_VERSION          1
 #define CMD_GET_SYS_INFO         2
@@ -78,34 +69,12 @@
 #define SOM2   0xaa
 #define EOM    0x55
 
-
-#ifdef __GPSTAR_AUDIO_USE_ALTSOFTSERIAL__
-#include <AltSoftSerial.h>
-#else
-#include <HardwareSerial.h>
-#ifdef __GPSTAR_AUDIO_USE_SERIAL1__
-#define GPStarSerial Serial1
-#define __GPSTAR_AUDIO_SERIAL_ASSIGNED__
-#endif
-#ifdef __GPSTAR_AUDIO_USE_SERIAL2__
-#define GPStarSerial Serial2
-#define __GPSTAR_AUDIO_SERIAL_ASSIGNED__
-#endif
-#ifdef __GPSTAR_AUDIO_USE_SERIAL3__
-#define GPStarSerial Serial3
-#define __GPSTAR_AUDIO_SERIAL_ASSIGNED__
-#endif
-#ifndef __GPSTAR_AUDIO_SERIAL_ASSIGNED__
-#define GPStarSerial Serial
-#endif
-#endif
-
 class gpstarAudio
 {
 public:
   gpstarAudio() {;}
   ~gpstarAudio() {;}
-  void start(void);
+  void start(Stream& _port);
   void update(void);
   void flush(void);
   void setReporting(bool enable);
@@ -148,9 +117,7 @@ private:
   void trackControl(uint16_t trk, uint8_t code);
   void trackControl(uint16_t trk, uint8_t code, bool lock);
 
-  #ifdef __GPSTAR_AUDIO_USE_ALTSOFTSERIAL__
-    AltSoftSerial GPStarSerial;
-  #endif
+  Stream* GPStarSerial;
 
   uint16_t voiceTable[MAX_NUM_VOICES];
   uint8_t rxMessage[MAX_MESSAGE_LEN];
