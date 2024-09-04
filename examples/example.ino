@@ -29,11 +29,9 @@
  *     Pin 9     <----->       RX
  */
 
-#define __GPSTAR_PRESET__
 
-#ifdef __GPSTAR_PRESET__
-  #define __GPSTAR_AUDIO_USE_ALTSOFTSERIAL__
-#endif
+#include <AltSoftSerial.h> // When using AltSoftSerial.
+//#include <HardwareSerial.h> // When using hardware serial.
 
 #include <GPStarAudio.h>
 gpstarAudio gpstar;
@@ -45,7 +43,13 @@ void setup() {
   // A quick delay to allow GPStar Audio to boot up.
   delay(1000);
 
-  gpstar.start();
+  // Please note: GPStar Audio uses 57000 baudrate by default. You can configure this by adding the setting to the Micro SD Card ini configuration file. Please see the README.MD file for more information.
+
+  AltSoftSerial.begin(57000); // When using AltSoftSerial.
+  gpstar.start(AltSoftSerial);
+
+  //Serial3.begin(57000); // When using hardware serial. Pick the serial port you want to use.
+  //gpstar.start(Serial3);
 
   delay(10);
 

@@ -9,33 +9,11 @@ GPStar Audio and GPStar Audio XL are polyphonic audio players capable of playing
 It's onboard stereo amplifier is capable of driving 2 speakers (2.5W @ 4Ω or 1.25W @ 8Ω per channel) from the onboard amplifier and also has a stereo out auxiliary jack. Powered with 5V to the 5V and GND pins, it can be controlled over a serial interface with a Arduino or any other microcontroller. It can be used for a variety of projects such as toys, musical instruments, props or any other embedded projects.
 
 
-By default, GPStar Audio and GPStar Audio XL are configured to use AltSoftSerial for communication. However if you want to use a hardware serial port on your microcontroller that you are using, then make the following changes in the `GPStarAuduio.h file` and uncomment out the line with the serial port you wish to use and comment out the ones that are not used.
-
-```
-// ------------------------------------------------
-// Uncomment only the serial class you wish to use.
-#define __GPSTAR_AUDIO_USE_ALTSOFTSERIAL__
-//#define __GPSTAR_AUDIO_USE_SERIAL1__
-//#define __GPSTAR_AUDIO_USE_SERIAL2__
-//#define __GPSTAR_AUDIO_USE_SERIAL3__
-// ------------------------------------------------
-```
-
-Otherwise you can also override the above by not editing any of the files directly but instead and add the following code to your project before the inclusion of `GPStarAuduio.h`:
-
-```
-#define __GPSTAR_PRESET__
-
-#ifdef __GPSTAR_PRESET__
-  #define __GPSTAR_AUDIO_USE_SERIAL1__
-#endif
-```
-
 Example code can be found in the example folder in how to use this library.
 
 ## Serial commands ##
 
-**GPStarAudio.start()** - This must be called first, to setup the serial communications.
+**GPStarAudio.start(SerialObject)** - This must be called first, to setup the serial communications. You must initalise the serial object and pass it to the function. Example: Serial.begin(57000); GPStarAudio.start(Serial);
 
 **GPStarAudio.hello()** - This can be called to return if GPStar Audio can be detected.
 
