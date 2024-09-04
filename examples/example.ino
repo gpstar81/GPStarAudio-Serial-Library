@@ -48,7 +48,7 @@ void setup() {
   AltSoftSerial.begin(57600); // When using AltSoftSerial.
   gpstar.start(AltSoftSerial);
 
-  //Serial3.begin(57000); // When using hardware serial. Pick the serial port you want to use.
+  //Serial3.begin(57600); // When using hardware serial. Pick the serial port you want to use.
   //gpstar.start(Serial3);
 
   delay(10);
