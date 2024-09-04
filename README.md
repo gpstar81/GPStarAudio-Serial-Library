@@ -13,7 +13,7 @@ Example code can be found in the example folder in how to use this library.
 
 ## Serial commands ##
 
-**GPStarAudio.start(SerialObject)** - This must be called first, to setup the serial communications. You must initalise the serial object and pass it to the function. Example: Serial.begin(57000); GPStarAudio.start(Serial);
+**GPStarAudio.start(SerialObject)** - This must be called first, to setup the serial communications. You must initalise the serial object and pass it to the function. Example: Serial.begin(57600); GPStarAudio.start(Serial);
 
 **GPStarAudio.hello()** - This can be called to return if GPStar Audio can be detected.
 
