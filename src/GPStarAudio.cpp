@@ -29,7 +29,7 @@ void gpstarAudio::start(Stream& _port) {
   gpsInfoRcvd = false;
 
   GPStarSerial = &_port;
-  
+
   flush();
 }
 
@@ -157,7 +157,7 @@ void gpstarAudio::update(void) {
         break;
 
         case RSP_GPSTAR_HELLO:
-          // WT.
+          // GP.
           numVoices = rxMessage[1];
           numTracks = rxMessage[3];
           numTracks = (numTracks << 8) + rxMessage[2];
@@ -174,20 +174,12 @@ void gpstarAudio::update(void) {
 
 bool gpstarAudio::currentTrackStatus(uint16_t trk) {
   if(trk == currentTrack) {
-    if(b_currentTrackStatus == true) {
+    if(b_currentTrackStatus) {
       return true;
     }
   }
 
   return false;
-}
-
-bool gpstarAudio::trackCounterReset() {
-  return trackCounter;
-}
-
-void gpstarAudio::resetTrackCounter(bool bReset) {
-  trackCounter = bReset;
 }
 
 void gpstarAudio::trackPlayingStatus(uint16_t trk) {
@@ -401,7 +393,7 @@ void gpstarAudio::trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stop
   GPStarSerial->write(txbuf, 12);
 }
 
-void gpstarAudio::samplerateOffset(uint16_t offset) {
+void gpstarAudio::samplerateOffset(int16_t offset) {
   uint8_t txbuf[7];
 
   txbuf[0] = SOM1;
@@ -427,14 +419,14 @@ void gpstarAudio::setTriggerBank(uint8_t bank) {
 }
 
 // Turn on or off the LED on GPStar Audio. Default is on.
-void gpstarAudio::gpstarLEDStatus(bool status) {
+void gpstarAudio::gpstarLEDStatus(bool enable) {
   uint8_t txbuf[5];
 
   txbuf[0] = SOM1;
   txbuf[1] = SOM2;
   txbuf[2] = 0x05;
 
-  if(status == true) {
+  if(enable) {
     txbuf[3] = CMD_LED_ON;
   }
   else {
@@ -446,14 +438,14 @@ void gpstarAudio::gpstarLEDStatus(bool status) {
 }
 
 // Turn on track short overload or turn it off.
-void gpstarAudio::gpstarShortTrackOverload(bool status) {
+void gpstarAudio::gpstarShortTrackOverload(bool enable) {
   uint8_t txbuf[5];
 
   txbuf[0] = SOM1;
   txbuf[1] = SOM2;
   txbuf[2] = 0x05;
 
-  if(status == true) {
+  if(enable) {
     txbuf[3] = CMD_SHORT_OVERLOAD_ON;
   }
   else {
@@ -465,14 +457,14 @@ void gpstarAudio::gpstarShortTrackOverload(bool status) {
 }
 
 // Turn on track force or turn it off.
-void gpstarAudio::gpstarTrackForce(bool status) {
+void gpstarAudio::gpstarTrackForce(bool enable) {
   uint8_t txbuf[5];
 
   txbuf[0] = SOM1;
   txbuf[1] = SOM2;
   txbuf[2] = 0x05;
 
-  if(status == true) {
+  if(enable) {
     txbuf[3] = CMD_TRACK_FORCE_ON;
   }
   else {
