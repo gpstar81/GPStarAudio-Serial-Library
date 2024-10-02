@@ -97,19 +97,17 @@ public:
   void trackLoop(uint16_t trk, bool enable);
   void trackGain(uint16_t trk, int16_t gain);
   void trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag);
-  void samplerateOffset(uint16_t offset);
+  void samplerateOffset(int16_t offset);
   void setTriggerBank(uint8_t bank);
   void trackPlayingStatus(uint16_t trk);
   bool currentTrackStatus(uint16_t trk);
-  bool trackCounterReset(void);
-  void resetTrackCounter(bool bReset);
   void serialFlush(void);
   void requestVersionString(void);
   void requestSystemInfo(void);
   void hello(void);
-  void gpstarLEDStatus(bool status);
-  void gpstarShortTrackOverload(bool status);
-  void gpstarTrackForce(bool status);
+  void gpstarLEDStatus(bool enable);
+  void gpstarShortTrackOverload(bool enable);
+  void gpstarTrackForce(bool enable);
   bool wasSysInfoRcvd(void);
   bool gpstarAudioHello(void);
 
@@ -132,5 +130,4 @@ private:
   bool gpsInfoRcvd;
   uint16_t currentTrack;
   bool b_currentTrackStatus;
-  bool trackCounter;
 };
