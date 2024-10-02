@@ -101,6 +101,8 @@ public:
   void setTriggerBank(uint8_t bank);
   void trackPlayingStatus(uint16_t trk);
   bool currentTrackStatus(uint16_t trk);
+  bool trackCounterReset(void);
+  void resetTrackCounter(bool bReset);  
   void serialFlush(void);
   void requestVersionString(void);
   void requestSystemInfo(void);
@@ -130,4 +132,5 @@ private:
   bool gpsInfoRcvd;
   uint16_t currentTrack;
   bool b_currentTrackStatus;
+  bool trackCounter;
 };
