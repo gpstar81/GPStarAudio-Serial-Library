@@ -182,6 +182,14 @@ bool gpstarAudio::currentTrackStatus(uint16_t trk) {
   return false;
 }
 
+bool gpstarAudio::trackCounterReset() {
+  return trackCounter;
+}
+
+void gpstarAudio::resetTrackCounter(bool bReset) {
+  trackCounter = bReset;
+}
+
 void gpstarAudio::trackPlayingStatus(uint16_t trk) {
   uint8_t txbuf[7];
 
