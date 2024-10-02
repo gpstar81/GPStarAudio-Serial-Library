@@ -52,7 +52,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackLoop(uint16_t trk, bool enable)** - This will set a track to loop or not loop. When set to loop, the track will automatically replay itself until you call `GPStarAudio.trackStop(int t)` or set the the track looping off. Set to true to enable looping or false to disable looping.
 
-**GPStarAudio.trackGain(uint16_t trk, int16_t gain)** - This will set the volume of the provided track number. The volume range is `-70` (quietest) to `0` (loudest). This only affects the volume of this track within the mix, not the gain of the output amplifier.
+**GPStarAudio.trackGain(uint16_t trk, int16_t gain)** - This will set the volume of the provided track number. The volume range is `-59` (quietest) to `0` (loudest). This only affects the volume of this track within the mix, not the gain of the output amplifier.
 
 **GPStarAudio.trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag)** - This will fade the currently playing provided track number. The track volume will logarithmically fade to the target gain you provide from whatever volume the track is already playing at. The `stopFlag` by default is `false` which will keep the track playing after the fade. Setting the `stopFlag` to `true` will make the track stop playing and free its channel after the fade has finished.
 
@@ -180,7 +180,6 @@ The syntax of the file is very simple, using enclosed square brackets to setup c
 
 **led&#95;off:** Control whether the onboard status LED flashes or not during playback or non playback. Valid values are 0 for allowing the LED to function or `1` for disabling the LED. The default is `0`.
 
-
 ## Trigger configuration
 Unique to GPStar Audio XL are the trigger pins. These can be setup so you can play sounds without any coding. You can also conigure the behaviour of these pins by setting them up into the GPStarAudio.ini configuration file. Please refer to the example configuration file located in this repository for usage.
 
@@ -194,7 +193,7 @@ Note that these do not need to be configured for the trigger pins to operate and
 
 **gp#&#95;file_number:** The track number on the microSD card. The default is the pin number of this trigger. For example, set this to `100` to play the wav file with the `100_` prefix.
 
-**gp#&#95;volume:** The default volume for the track. Valid ranges are `0` to `-70`, with `0` being the loudest and `-70` being the most quiet. The default is `0`.
+**gp#&#95;volume:** The default volume for the track. Valid ranges are `0` to `-59`, with `0` being the loudest and `-59` being the most quiet. The default is `0`.
 
 ## Links
 

@@ -105,7 +105,7 @@ void loop() {
     delay(5000);
 
     // Fade out track 3 over 4 seconds and have it stop when the fade has ended.
-    gpstar.trackFade(3, -70, 4000, 1);
+    gpstar.trackFade(3, -59, 4000, 1);
 
     delay(5000);
 
