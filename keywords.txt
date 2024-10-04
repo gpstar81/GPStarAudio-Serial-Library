@@ -33,10 +33,13 @@ trackPause	KEYWORD2
 trackResume	KEYWORD2
 trackLoop	KEYWORD2
 trackGain	KEYWORD2
+trackFade	KEYWORD2
 samplerateOffset	KEYWORD2
 setTriggerBank	KEYWORD2
 trackPlayingStatus	KEYWORD2
 currentTrackStatus	KEYWORD2
+resetTrackCounter	KEYWORD2
+isTrackCounterReset	KEYWORD2
 serialFlush	KEYWORD2
 requestVersionString	KEYWORD2
 requestSystemInfo	KEYWORD2
