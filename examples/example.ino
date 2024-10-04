@@ -20,7 +20,7 @@
  *   1. Download and install AltSoftSerial library.
  *   2. Copy the wav files from the example folder to a Micro SD Card.
  *   3. Connect 4 wires from the UNO or Nano to the GPStar UART connector / pins:
- 
+
  *   UNO / Nano            GPStar Audio
  *   ----------            ------------
  *      GND      <----->       GND
@@ -81,7 +81,7 @@ void loop() {
     // Play track 2 at 100% volume. The track will stop playing after it has ended.
     gpstar.trackGain(2, 0);
     gpstar.trackPlay(2);
-    
+
     delay(5000);
 
     // Fade in track 3 over 4 seconds to 100% volume, and let it loop
