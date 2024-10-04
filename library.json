@@ -1,0 +1,28 @@
+{
+    "name": "GPStar Audio Serial Library",
+    "version": "1.1.1",
+    "description": "A serial communication control library for the GPStar Audio and GPStar Audio XL series of audio boards from GPStar Technologies.",
+    "keywords": "audio, serial, music, wav",
+    "authors":
+    {
+      "name":  "Michael Rajotte",
+      "url":   "https://github.com/gpstar81",
+      "maintainer": true
+    },
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/gpstar81/GPStarAudio-Serial-Library.git"
+    },
+    "homepage": "https://github.com/gpstar81/GPStarAudio-Serial-Library",
+    "export": {
+      "exclude": [
+        "linux",
+        "images",
+        "instruction manuals"
+      ]
+    },
+    "frameworks": "arduino",
+    "platforms": "*",
+    "examples": "examples/*/*.ino"
+  }
