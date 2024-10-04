@@ -64,7 +64,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.resumeAllInSync()** - This will resume all tracks which are currently paused at the exact same time.
 
-**GPStarAudio.samplerateOffset(uint16_t offset)** - This sets the sample-rate offset of the main output mix. The range for the offset is `-32767` to `32676`, giving a speed range of 1/2x to 2x or a pitch range of down one octave to up one octave. If audio is playing you will hear the result immediately. If audio is not playing, the new sample-rate offset will be used the next time a track is started.
+**GPStarAudio.samplerateOffset(int16_t offset)** - This sets the sample-rate offset of the main output mix. The range for the offset is `-32767` to `32676`, giving a speed range of 1/2x to 2x or a pitch range of down one octave to up one octave. If audio is playing you will hear the result immediately. If audio is not playing, the new sample-rate offset will be used the next time a track is started.
 
 **GPStarAudio.setLED(bool status)** - You can turn off the LED status indicator by setting `status` to `false`. Passing `true` enables the LED again. By default the LED on GPStar Audio flashes and blinks to provide various status updates.
 
@@ -72,9 +72,13 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.gpstarTrackForce(bool status)** - Disabled by default. When enabled, GPStar Audio will forcibly take a audio channel when requested to play a new track even if all channels in use and locked.
 
-**GPStarAudio.trackPlayingStatus(uint16_t trk)** - This will ask GPStar Audio if the provided track number is playing. After calling this method, call the `GPStarAudio.currentTrackStatus(uint16_t trk)` method to find out if the track is playing or not.
+**GPStarAudio.trackPlayingStatus(uint16_t trk)** - This will ask GPStar Audio if the provided track number is playing. After calling this method, call the `GPStarAudio.currentTrackStatus(uint16_t trk)` method to find out if the track is playing or not. If the provided track number is not currently playing, this function will also set the internal track counter flag to `false` (see `isTrackCounterReset()`).
 
 **GPStarAudio.currentTrackStatus(uint16_t trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayingStatus(uint16_t trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
+
+**GPStarAudio.resetTrackCounter()** - Call this function to reset the state of the internal track counter flag. This is useful, for example, when you want to identify when a specific track has finished playing (such as for music playback). It is recommended to call this right before you start playing the track you intend to have the GPStar Audio follow the status of.
+
+**GPStarAudio.isTrackCounterReset()** - Call this function to see if the internal track counter flag has been reset. This will return `true` if the internal track counter flag has been reset by `resetTrackCounter()`. It will return `false` if `resetTrackCounter()` has never been called or if `trackPlayingStatus(trk)` was called on a track that is not currently playing.
 
 **GPStarAudio.setReporting(bool enable)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which always has track reporting enabled).
 

@@ -115,13 +115,14 @@ void gpstarAudio::update(void) {
 
           // 0 = not playing. 1 = playing.
           if(rxMessage[3] == 0) {
-            b_currentTrackStatus = false;
+            bCurrentTrackStatus = false;
           }
           else {
-            b_currentTrackStatus = true;
+            bCurrentTrackStatus = true;
           }
 
-          resetTrackCounter(false);
+          // Set trackCounter to false to reset it.
+          trackCounter = false;
         break;
 
         case RSP_TRACK_REPORT:
@@ -174,7 +175,7 @@ void gpstarAudio::update(void) {
 
 bool gpstarAudio::currentTrackStatus(uint16_t trk) {
   if(trk == currentTrack) {
-    if(b_currentTrackStatus) {
+    if(bCurrentTrackStatus) {
       return true;
     }
   }
@@ -182,12 +183,26 @@ bool gpstarAudio::currentTrackStatus(uint16_t trk) {
   return false;
 }
 
+__attribute__((deprecated("trackCounterReset() is deprecated. Please use isTrackCounterReset() instead.")))
 bool gpstarAudio::trackCounterReset() {
+  return isTrackCounterReset();
+}
+
+bool gpstarAudio::isTrackCounterReset() {
+  // trackCounter is reset if it is true.
   return trackCounter;
 }
 
+__attribute__((deprecated("resetTrackCounter(bool) is deprecated and will always reset to true. Please use resetTrackCounter() without passing a parameter instead.")))
 void gpstarAudio::resetTrackCounter(bool bReset) {
-  trackCounter = bReset;
+  // Ignore the passed parameter and reset trackCounter.
+  (void)bReset;
+  resetTrackCounter();
+}
+
+void gpstarAudio::resetTrackCounter() {
+  // Resetting the variable means to set it to true.
+  trackCounter = true;
 }
 
 void gpstarAudio::trackPlayingStatus(uint16_t trk) {

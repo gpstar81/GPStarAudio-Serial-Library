@@ -102,7 +102,9 @@ public:
   void trackPlayingStatus(uint16_t trk);
   bool currentTrackStatus(uint16_t trk);
   bool trackCounterReset(void);
-  void resetTrackCounter(bool bReset);  
+  void resetTrackCounter(bool bReset);
+  bool isTrackCounterReset(void);
+  void resetTrackCounter(void);
   void serialFlush(void);
   void requestVersionString(void);
   void requestSystemInfo(void);
@@ -131,6 +133,6 @@ private:
   bool sysInfoRcvd;
   bool gpsInfoRcvd;
   uint16_t currentTrack;
-  bool b_currentTrackStatus;
+  bool bCurrentTrackStatus;
   bool trackCounter;
 };
