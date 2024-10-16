@@ -303,6 +303,10 @@ void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock) {
   trackControl(trk, TRK_PLAY_POLY, lock);
 }
 
+void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock, uint16_t trk2, bool loop_trk2) {
+  trackControl(trk, TRK_PLAY_POLY, lock, trk2, loop_trk2);
+}
+
 void gpstarAudio::trackLoad(uint16_t trk) {
   trackControl(trk, TRK_LOAD);
 }
@@ -359,6 +363,35 @@ void gpstarAudio::trackControl(uint16_t trk, uint8_t code, bool lock) {
   txbuf[7] = lock;
   txbuf[8] = EOM;
   GPStarSerial->write(txbuf, 9);
+}
+
+void gpstarAudio::trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk2, bool loop_trk2) {
+  uint8_t txbuf[12];
+
+  txbuf[0] = SOM1;
+  txbuf[1] = SOM2;
+  txbuf[2] = 0x0c;
+  txbuf[3] = CMD_TRACK_CONTROL_QUEUE;
+  txbuf[4] = code;
+  txbuf[5] = (uint8_t)trk;
+  txbuf[6] = (uint8_t)(trk >> 8);
+  txbuf[7] = lock;
+  txbuf[8] = (uint8_t)trk2;
+  txbuf[9] = (uint8_t)(trk2 >> 8);  
+  txbuf[10] = loop_trk2;
+  txbuf[11] = EOM;
+  GPStarSerial->write(txbuf, 12);
+}
+
+void gpstarAudio::trackQueueClear() {
+  uint8_t txbuf[5];
+
+  txbuf[0] = SOM1;
+  txbuf[1] = SOM2;
+  txbuf[2] = 0x05;
+  txbuf[3] = CMD_TRACK_QUEUE_CLEAR;
+  txbuf[4] = EOM;
+  GPStarSerial->write(txbuf, 5);
 }
 
 void gpstarAudio::stopAllTracks(void) {

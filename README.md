@@ -40,9 +40,13 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackPlaySingle(uint16_t trk, bool lock)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
 
-**GPStarAudio.trackPlay(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
+**GPStarAudio.trackPlayPoly(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
 
-**GPStarAudio.trackPlay(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t trk_2, bool loop_trk2)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. trk_2 will be put into a queue and when trk finishes, then trk_2 will begin to auto play immediately. Set loop_trk2 to true to have the queued track to loop, false for it to play only one time. The queued track will share the same track lock as the first track.
+
+**GPStarAudio.trackQueueClear()** - This will clear out the track queue if you set another track to play immediately with the trackPlayPoly command.
 
 **GPStarAudio.trackStop(uint16_t trk)** - This stops the provided track number if it is currently playing and frees the channel it was using.
 

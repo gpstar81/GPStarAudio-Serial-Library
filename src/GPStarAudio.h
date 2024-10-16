@@ -45,6 +45,8 @@
 #define CMD_SHORT_OVERLOAD_OFF  21
 #define CMD_TRACK_FORCE_ON      22
 #define CMD_TRACK_FORCE_OFF     23
+#define CMD_TRACK_QUEUE_CLEAR   25
+#define CMD_TRACK_CONTROL_QUEUE 26
 
 #define TRK_PLAY_SOLO            0
 #define TRK_PLAY_POLY            1
@@ -89,6 +91,8 @@ public:
   void trackPlaySolo(uint16_t trk, bool lock);
   void trackPlayPoly(uint16_t trk);
   void trackPlayPoly(uint16_t trk, bool lock);
+  void trackPlayPoly(uint16_t trk, bool lock, uint16_t trk2, bool loop_trk2);
+  void trackQueueClear(void);
   void trackLoad(uint16_t trk);
   void trackLoad(uint16_t trk, bool lock);
   void trackStop(uint16_t trk);
@@ -118,6 +122,7 @@ public:
 private:
   void trackControl(uint16_t trk, uint8_t code);
   void trackControl(uint16_t trk, uint8_t code, bool lock);
+  void trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk2, bool loop_trk2);
 
   Stream* GPStarSerial;
 
