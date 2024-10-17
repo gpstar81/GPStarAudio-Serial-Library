@@ -20,6 +20,7 @@ flush	KEYWORD2
 setReporting	KEYWORD2
 setAmpPwr	KEYWORD2
 getVersion	KEYWORD2
+getVersionNumber	KEYWORD2
 getNumTracks	KEYWORD2
 isTrackPlaying	KEYWORD2
 masterGain	KEYWORD2

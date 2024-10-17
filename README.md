@@ -18,17 +18,17 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.serialFlush()** - Flushes the serial buffer of whichever serial UART is associated with this GPStarAudio instance.
 
-**GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. See next method to check for the return value.
+**GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. Various information is returned such as the number of tracks and version number. See next method to check for the return values.
 
 **GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below).
+
+**GPStarAudio.getVersionNumber()** - Returns a 16 bit integer with the current firmware version of GPStar Audio. Available on version 1.04 and up. Use GPStarAudio.hello() to have the system return and load the various information.
 
 **GPStarAudio.requestSystemInfo()** - Call this to have the GPStar Audio respond with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below). This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.requestVersionString()** - Call this to have the GPStar Audio respond with an `RSP_VERSION_STRING` packet containing the current software version number. See next method to check for the return value.
-
-**GPStarAudio.getVersion(char\* version)** - Returns a `bool` for whether the `RSP_VERSION_STRING` packet was received. Pass a `char` array of size `VERSION_STRING_LEN` as the parameter to store the version string value.
 
 **GPStarAudio.update()** - Calling this will process any incoming serial data from GPStar Audio. If you are using `currentTrackStatus()` calls, then you will want to call this often.
 

@@ -83,6 +83,7 @@ public:
   void setAmpPwr(bool enable);
   bool getVersion(char *pDst);
   uint16_t getNumTracks(void);
+  uint16_t getVersionNumber(void);
   bool isTrackPlaying(uint16_t trk);
   void masterGain(int16_t gain);
   void stopAllTracks(void);
@@ -130,6 +131,7 @@ private:
   uint8_t rxMessage[MAX_MESSAGE_LEN];
   char version[VERSION_STRING_LEN];
   uint16_t numTracks;
+  uint16_t versionNumber;
   uint8_t numVoices;
   uint8_t rxCount;
   uint8_t rxLen;
