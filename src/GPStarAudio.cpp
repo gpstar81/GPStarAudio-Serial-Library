@@ -162,8 +162,11 @@ void gpstarAudio::update(void) {
           numVoices = rxMessage[1];
           numTracks = rxMessage[3];
           numTracks = (numTracks << 8) + rxMessage[2];
-          versionNumber = rxMessage[5];
-          versionNumber = (versionNumber << 8) + rxMessage[4];
+
+          if(rxLen >= GPSTAR_HELLO_LEN) {
+            versionNumber = rxMessage[5];
+            versionNumber = (versionNumber << 8) + rxMessage[4];
+          }
 
           gpsInfoRcvd = true;
         break;

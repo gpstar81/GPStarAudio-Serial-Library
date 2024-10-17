@@ -66,6 +66,7 @@
 #define MAX_MESSAGE_LEN         32
 #define MAX_NUM_VOICES          14
 #define VERSION_STRING_LEN      21
+#define GPSTAR_HELLO_LEN         9
 
 #define SOM1   0xf0
 #define SOM2   0xaa
