@@ -47,6 +47,7 @@
 #define CMD_TRACK_FORCE_OFF     23
 #define CMD_TRACK_QUEUE_CLEAR   25
 #define CMD_TRACK_CONTROL_QUEUE 26
+#define CMD_TRACK_CONTROL_CACHE 27
 
 #define TRK_PLAY_SOLO            0
 #define TRK_PLAY_POLY            1
@@ -93,7 +94,8 @@ public:
   void trackPlaySolo(uint16_t trk, bool lock);
   void trackPlayPoly(uint16_t trk);
   void trackPlayPoly(uint16_t trk, bool lock);
-  void trackPlayPoly(uint16_t trk, bool lock, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
+  void trackPlayPoly(uint16_t trk, bool lock, uint16_t trk1_start_time);
+  void trackPlayPoly(uint16_t trk, bool lock, uint16_t trk1_start_time, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
   void trackQueueClear(void);
   void trackLoad(uint16_t trk);
   void trackLoad(uint16_t trk, bool lock);
@@ -124,7 +126,8 @@ public:
 private:
   void trackControl(uint16_t trk, uint8_t code);
   void trackControl(uint16_t trk, uint8_t code, bool lock);
-  void trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
+  void trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk1_start_time);
+  void trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk1_start_time, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
 
   Stream* GPStarSerial;
 
