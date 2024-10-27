@@ -45,6 +45,9 @@
 #define CMD_SHORT_OVERLOAD_OFF  21
 #define CMD_TRACK_FORCE_ON      22
 #define CMD_TRACK_FORCE_OFF     23
+#define CMD_TRACK_QUEUE_CLEAR   25
+#define CMD_TRACK_CONTROL_QUEUE 26
+#define CMD_TRACK_CONTROL_CACHE 27
 
 #define TRK_PLAY_SOLO            0
 #define TRK_PLAY_POLY            1
@@ -64,6 +67,7 @@
 #define MAX_MESSAGE_LEN         32
 #define MAX_NUM_VOICES          14
 #define VERSION_STRING_LEN      21
+#define GPSTAR_HELLO_LEN         9
 
 #define SOM1   0xf0
 #define SOM2   0xaa
@@ -81,14 +85,20 @@ public:
   void setAmpPwr(bool enable);
   bool getVersion(char *pDst);
   uint16_t getNumTracks(void);
+  uint16_t getVersionNumber(void);
   bool isTrackPlaying(uint16_t trk);
   void masterGain(int16_t gain);
   void stopAllTracks(void);
   void resumeAllInSync(void);
   void trackPlaySolo(uint16_t trk);
   void trackPlaySolo(uint16_t trk, bool lock);
+  void trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay);
+  void trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
   void trackPlayPoly(uint16_t trk);
   void trackPlayPoly(uint16_t trk, bool lock);
+  void trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay);
+  void trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
+  void trackQueueClear(void);
   void trackLoad(uint16_t trk);
   void trackLoad(uint16_t trk, bool lock);
   void trackStop(uint16_t trk);
@@ -118,6 +128,8 @@ public:
 private:
   void trackControl(uint16_t trk, uint8_t code);
   void trackControl(uint16_t trk, uint8_t code, bool lock);
+  void trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk1_start_time);
+  void trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t trk1_start_time, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
 
   Stream* GPStarSerial;
 
@@ -125,6 +137,7 @@ private:
   uint8_t rxMessage[MAX_MESSAGE_LEN];
   char version[VERSION_STRING_LEN];
   uint16_t numTracks;
+  uint16_t versionNumber;
   uint8_t numVoices;
   uint8_t rxCount;
   uint8_t rxLen;

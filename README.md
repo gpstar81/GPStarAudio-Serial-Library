@@ -18,17 +18,19 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.serialFlush()** - Flushes the serial buffer of whichever serial UART is associated with this GPStarAudio instance.
 
-**GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. See next method to check for the return value.
+**GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. Various information is returned such as the number of tracks and version number. See next methods to check for the return values.
 
 **GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below).
+
+**GPStarAudio.getVersionNumber()** - Returns a `uint16_t` with the current firmware version of GPStar Audio. Available on firmware version 1.04 and up and returns `0` if not supported.
 
 **GPStarAudio.requestSystemInfo()** - Call this to have the GPStar Audio respond with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below). This function is provided for backwards compatibility with other polyphonic audio boards.
 
-**GPStarAudio.requestVersionString()** - Call this to have the GPStar Audio respond with an `RSP_VERSION_STRING` packet containing the current software version number. See next method to check for the return value.
+**GPStarAudio.requestVersionString()** - This function is provided for backwards compatibility with other polyphonic audio boards and has no effect on a GPStar Audio board.
 
-**GPStarAudio.getVersion(char\* version)** - Returns a `bool` for whether the `RSP_VERSION_STRING` packet was received. Pass a `char` array of size `VERSION_STRING_LEN` as the parameter to store the version string value.
+**GPStarAudio.getVersion(char\* version)** - Returns `false` for whether the `RSP_VERSION_STRING` packet was received. This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.update()** - Calling this will process any incoming serial data from GPStar Audio. If you are using `currentTrackStatus()` calls, then you will want to call this often.
 
@@ -36,13 +38,23 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.masterGain(int16_t gain)** - This sets the master gain (in dB) of the audio output amplifier. The range is `-59` (quietest) to `24` (loudest). Note that `24` is only achievable using the speaker amplifier. If using the headphone jack, the output amplifier gain has a maximum of `18`.
 
-**GPStarAudio.trackPlaySingle(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
+**GPStarAudio.trackPlaySolo(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
 
-**GPStarAudio.trackPlaySingle(uint16_t trk, bool lock)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
 
-**GPStarAudio.trackPlay(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0` the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away.
 
-**GPStarAudio.trackPlay(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint_16 i_trk1_start_delay, uint16_t trk_2, bool loop_trk2, uint16_t trk2_start_time)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0` the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away. `trk_2` will be put into a queue. `trk2_start_time` is the time in milliseconds remaining before the end of the original `trk` which will then trigger `trk2` to start playing. Set `loop_trk2` to `true` to have the queued track loop or `false` for it to play only one time. The queued track will share the same track lock value as the first track. `trk` can only trigger the queue to play one time until it is reset again. You can still apply fade commands to the original preloaded `trk`.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0` the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint_16 i_trk1_start_delay, uint16_t trk_2, bool loop_trk2, uint16_t trk2_start_time)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0`, the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away. `trk_2` will be put into a queue. `trk2_start_time` is the time in milliseconds remaining before the end of the original `trk` which will then trigger `trk2` to start playing. Set `loop_trk2` to `true` to have the queued track loop or `false` for it to play only one time. The queued track will share the same track lock value as the first track. `trk` can only trigger the queue to play one time until it is reset again. You can still apply fade commands to the original preloaded `trk`.
+
+**GPStarAudio.trackQueueClear()** - This will clear out the track queue if you set another track to play immediately with the trackPlayPoly command.
 
 **GPStarAudio.trackStop(uint16_t trk)** - This stops the provided track number if it is currently playing and frees the channel it was using.
 

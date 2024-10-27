@@ -73,20 +73,20 @@ void loop() {
   if(b_gpstar_audio_found == true) {
     // Play track 1 at 100% volume and set it to loop.
     gpstar.trackGain(1, 0);
-    gpstar.trackPlay(1);
+    gpstar.trackPlayPoly(1);
     gpstar.trackLoop(1, 1);
 
     delay(5000);
 
     // Play track 2 at 100% volume. The track will stop playing after it has ended.
     gpstar.trackGain(2, 0);
-    gpstar.trackPlay(2);
+    gpstar.trackPlayPoly(2);
 
     delay(5000);
 
     // Fade in track 3 over 4 seconds to 100% volume, and let it loop
     gpstar.trackGain(3, -70);
-    gpstar.trackPlay(3);
+    gpstar.trackPlayPoly(3);
     gpstar.trackFade(3, 0, 4000, 0);
     gpstar.trackLoop(3, 1);
 
@@ -113,5 +113,26 @@ void loop() {
     gpstar.stopAllTracks();
 
     delay(2000);
+
+    // Set the volume of track 1 and 2 to 100%.
+    gpstar.trackGain(1, 0);
+    gpstar.trackGain(2, 0);
+
+    // Play track 2 right away, and when there is 10 milliseconds left to go in track 2, play track 1 and have track 1 loop.
+    gpstar.trackPlayPoly(2, true, 0, 1, true, 10);
+
+    delay(5000);
+
+    // Stop all tracks.
+    gpstar.stopAllTracks();
+
+    delay(2000);
+
+    // Set the volume to track 1 to the lowest. Then have track one fade in ove 2 seconds after a 5 second delay. Then when there is 50 milliseconds left to go in track 1, play track 2 and have track 2 loop.
+    gpstar.trackGain(1, -70);
+    gpstar.trackPlayPoly(1, true, 5000, 2, true, 50);
+    gpstar.trackFade(1, 0, 2000, 0);
+
+    delay(5000);    
   }
 }
