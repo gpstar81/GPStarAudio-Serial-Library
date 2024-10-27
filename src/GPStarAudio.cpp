@@ -305,6 +305,14 @@ void gpstarAudio::trackPlaySolo(uint16_t trk, bool lock) {
   trackControl(trk, TRK_PLAY_SOLO, lock);
 }
 
+void gpstarAudio::trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay) {
+  trackControl(trk, TRK_PLAY_SOLO, lock, i_trk_start_delay);
+}
+
+void gpstarAudio::trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time) {
+  trackControl(trk, TRK_PLAY_SOLO, lock, i_trk_start_delay, trk2, loop_trk2, trk2_start_time);
+}
+
 void gpstarAudio::trackPlayPoly(uint16_t trk) {
   trackControl(trk, TRK_PLAY_POLY);
 }
@@ -313,12 +321,12 @@ void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock) {
   trackControl(trk, TRK_PLAY_POLY, lock);
 }
 
-void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock, uint16_t trk1_start_time) {
-  trackControl(trk, TRK_PLAY_POLY, lock, trk1_start_time);
+void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay) {
+  trackControl(trk, TRK_PLAY_POLY, lock, i_trk_start_delay);
 }
 
-void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock, uint16_t trk1_start_time, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time) {
-  trackControl(trk, TRK_PLAY_POLY, lock, trk1_start_time, trk2, loop_trk2, trk2_start_time);
+void gpstarAudio::trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time) {
+  trackControl(trk, TRK_PLAY_POLY, lock, i_trk_start_delay, trk2, loop_trk2, trk2_start_time);
 }
 
 void gpstarAudio::trackLoad(uint16_t trk) {
@@ -401,7 +409,7 @@ void gpstarAudio::trackControl(uint16_t trk, uint8_t code, bool lock, uint16_t t
 
   txbuf[0] = SOM1;
   txbuf[1] = SOM2;
-  txbuf[2] = 0x010;
+  txbuf[2] = 0x10;
   txbuf[3] = CMD_TRACK_CONTROL_QUEUE;
   txbuf[4] = code;
   txbuf[5] = (uint8_t)trk;
