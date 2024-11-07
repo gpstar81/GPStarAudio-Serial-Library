@@ -189,17 +189,30 @@ The syntax of the file is very simple, using enclosed square brackets to setup c
 Example syntax is as follows:
 
 **[gpstarconfig]**
-<br>volume&#95;amplifier = 10 <br>volume&#95;aux = 0 <br>serial&#95;baud&#95;rate = 57600 <br>led&#95;off = 0
+<br>volume&#95;amplifier = 10 
+<br>volume&#95;aux = 0 
+<br>serial&#95;baud&#95;rate = 57600 
+<br>led&#95;off = 0
 
-**[gpstarmode]** <br>gp1&#95;mode = repeat <br>gp2&#95;mode = normal
+**[gpstarmode]**
+<br>gp1&#95;mode = repeat
+<br>gp2&#95;mode = normal
 
-**[gpstartrigger]** <br>gp1&#95;trigger = press <br>gp2&#95;trigger = hold
+**[gpstartrigger]**
+<br>gp1&#95;trigger = press
+<br>gp2&#95;trigger = hold
 
-**[gpstarplayback]** <br>gp1&#95;playback = stop <br>gp2&#95;playback = pause
+**[gpstarplayback]**
+<br>gp1&#95;playback = stop 
+<br>gp2&#95;playback = pause
 
-**[gpstartracks]** <br>gp1&#95;track = 1 <br>gp2&#95;track = 100
+**[gpstartracks]**
+<br>gp1&#95;track = 1 
+<br>gp2&#95;track = 100
 
-**[gpstartrackvolume]** <br>gp1&#95;volume = 0 <br>gp2&#95;volume = -25
+**[gpstartrackvolume]**
+<br>gp1&#95;volume = 0 
+<br>gp2&#95;volume = -25
 
 ## System configuration
 
