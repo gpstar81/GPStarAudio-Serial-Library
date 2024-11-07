@@ -179,12 +179,29 @@ Up to 20 triggering pins are availble on the GPStar Audio XL. They have JST-PH 2
 | TX2/RX2 | TX2/RX2 | Alternative serial communication port used for debugging. |
 | TEST |  | A button located on the lower right corner of the board. Pressing this button will play the first track on the micro SD card. |
 
-## Configuration file
+## Configuration file and syntax usage
 A configuration file is not required. However you can configure some settings by placing a `GPStarAudio.ini` configuration file into the root of the micro SD card. An example file can be found in this repository. If a configuration file is not found on the micro SD card the default settings are used.
 
 Many options can be set, such as the default output amplifier gain, serial communication baud rate, LED settings and to how the trigger pins handle playback.
 
 The syntax of the file is very simple, using enclosed square brackets to setup configuration areas.
+
+Example syntax is as follows:
+
+**[gpstarconfig]**
+<br>volume&#95;amplifier = 10 <br>volume&#95;aux = 0 <br>serial&#95;baud&#95;rate = 57600 <br>led&#95;off = 0
+
+**[gpstarmode]** <br>gp1&#95;mode = repeat <br>gp2&#95;mode = normal
+
+**[gpstartrigger]** <br>gp1&#95;trigger = press <br>gp2&#95;trigger = hold
+
+**[gpstarplayback]** <br>gp1&#95;playback = stop <br>gp2&#95;playback = pause
+
+**[gpstartracks]** <br>gp1&#95;track = 1 <br>gp2&#95;track = 100
+
+**[gpstartrackvolume]** <br>gp1&#95;volume = 0 <br>gp2&#95;volume = -25
+
+## System configuration
 
 **[gpstarconfig]:** This area can set the general settings of the board. If none of these settings exist in the ini file, then the system will default to the default settings for each option.
 
@@ -196,20 +213,22 @@ The syntax of the file is very simple, using enclosed square brackets to setup c
 
 **led&#95;off:** Control whether the onboard status LED flashes or not during playback or non playback. Valid values are 0 for allowing the LED to function or `1` for disabling the LED. The default is `0`.
 
-## Trigger configuration
-Unique to GPStar Audio XL are the trigger pins. These can be setup so you can play sounds without any coding. You can also conigure the behaviour of these pins by setting them up into the GPStarAudio.ini configuration file. Please refer to the example configuration file located in this repository for usage.
+## Triggering configuration
+Unique to GPStar Audio XL are the triggering pins. These can be setup so you can play sounds without any coding. You can also conigure the behaviour of these pins by setting them up into the GPStarAudio.ini configuration file. Please refer to the example configuration file located in this repository for usage.
 
 Note that these do not need to be configured for the trigger pins to operate and if `GPStarAudio.ini` is not on the micro SD card the default settings are loaded for the trigger pins.
 
-**[gpstartracks]:** This area contains playback setup and configuration of the 20 trigger pins. The pins are identified by gp1_ prefix in the ini file. The range is from `gp1_` up to `gp20_`.
+This area contains playback setup and configuration of the 20 triggering pins. The pins are identified by gp1_ prefix in the ini file. The range is from `gp1_` up to `gp20_`.
 
-**gp#&#95;playback:** Control how the playback is assigned to this trigger. Valid settings are `normal` or `loop`. `normal` will play the file until completion then it stops. `loop` will continuously loop the the audio until the pin is triggered again. Default is `normal`.
+**[gpstarmode]:** Valid settings for this is `normal`, or `repeat`. Normal plays the track and it stops when it finishes. Repeat will make the track loop forever unless re triggered again to do something else.
 
-**gp#&#95;trigger:** Set how the audio is triggered. Valid settings are `press` or `hold`. With `press`, when you make contact between the trigger pin and the ground pin below it the audio file will play and will contiinue to play even when you release the contact between the trigger pin and ground pin. With `hold`, you need to make continuous contact between the trigger pin and ground pin for the audio to play, as releasing the contact will cause it to stop. Default is `press`.
+**[gpstartrigger]:** Control how the playback is assigned to this trigger. Valid settings are `press` or `hold`. Press will trigger the pin and play the track. Hold will also trigger the track however releasing the trigger will make it perform an associated action setup with **[gpstarplayback]**.
 
-**gp#&#95;file_number:** The track number on the microSD card. The default is the pin number of this trigger. For example, set this to `100` to play the wav file with the `100_` prefix.
+**[gpstarplayback]:** This sets the what the trigger action will do if the trigger is already playing a track. Valid settings are `stop`, `pause`, `restart`. When pause is used, triggering it again will resume the playback of the track where it left off.
 
-**gp#&#95;volume:** The default volume for the track. Valid ranges are `0` to `-59`, with `0` being the loudest and `-59` being the most quiet. The default is `0`.
+**[gpstartracks]:** The track number on the MicroSD Card. The default is the pin number of this trigger. For example, set this to 100 to play the wav file with the 100_ prefix.
+
+**[gpstartrackvolume]:** The default volume for the individual track playback. Valid ranges are 0 to -59, with 0 being the loudest and -59 being the most quiet. The default is 0.
 
 ## Links
 
