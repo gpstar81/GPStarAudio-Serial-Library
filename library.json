@@ -17,12 +17,13 @@
     "homepage": "https://github.com/gpstar81/GPStarAudio-Serial-Library",
     "export": {
       "exclude": [
-        "linux",
         "images",
         "instruction manuals"
       ]
     },
+    "license": "GPL-3.0-or-later",
     "frameworks": "arduino",
     "platforms": "*",
+    "headers": "GPStarAudio.h",
     "examples": "examples/*/*.ino"
-  }
+}
