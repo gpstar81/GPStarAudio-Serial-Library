@@ -1,6 +1,6 @@
 ## <img src='images/gpstar_logo.png' width=50 align="left"/> GPStar Audio - Serial Library
 
-This repository contains the serial communication control library for the [GPStar Audio](https://gpstartechnologies.com/products/gpstar-audio) and [GPStar Audio XL](https://gpstartechnologies.com/products/gpstar-audio-xl) series of audio boards from GPStar Technologies. They are compatible with Arduino and other microcontrollers and in the case of the XL version, sounds can be triggered from the bank of 20 available trigger pins.
+This repository contains the serial communication control library for the [GPStar Audio](https://gpstartechnologies.com/products/gpstar-audio) and [GPStar Audio XL](https://gpstartechnologies.com/products/gpstar-audio-xl) series of audio boards from GPStar Technologies. They are compatible with Arduino and other microcontrollers and in the case of the XL version, sounds can be triggered from the bank of 20 available GP pins.
 
 [![](images/gpstar_audio.png)](https://gpstartechnologies.com/products/gpstar-audio)
 
@@ -133,6 +133,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 | Label | Notes |
 |-------|-------|
+| 5V USB-C | A standard USB-C port for which you can provide 5V power. The recommended way to power GPStar Audio XL. |
 | VIN (12V-40V) | You can power the device through the DC barrel jack. It can accept voltage ranges from 12V up to 40V. You can also power the device via the UART connection mentioned above. |
 | BOOT/LOAD | A slide switch button. When set to BOOT the system will operate normally. When set to LOAD the system enters programming mode and allows you to flash updated firmware over the UART connection. Make sure it is set to BOOT afterwards for it to operate. |
 | SPKR-R | Right Speaker output from the onboard stereo amplifier. Capable of powering either a 4Ω 2.5W or 8Ω 1.25W speaker at 5V. |
@@ -144,16 +145,15 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 #### The on-board stereo amplifier is capable of powering either a 4Ω 2.5W or 8Ω 1.25W speaker at 5V from each channel.
 
 ---
-### Triggering Pins
+### How to use the GP Pins
 
-Up to 20 triggering pins are availble on the GPStar Audio XL. They have JST-PH 2.0mm spacing between each bank of 10 pins.
+Up to 20 GP pins are available on GPStar Audio XL. The GP pins have a standard 2.54mm spacing between each one. You can easily wire a standard SPDT switch or any other toggle switch, header pins or JST-XH connectors to make the connection to the GP pins.
 
-![](images/GPStarAudioXL_triggers.png)
+![](images/GPStarAudioXL_GPpins.png)
 
 | Label | Notes |
 |-------|-------|
-| T1 - T20 | You can manually trigger sounds assigned to these pins by connecting them to the below ground pin. You can do this easily with standard push buttons or switches. These pins can be configured in the configuration file that is placed on the micro SD card (see below) to play different sounds, and/or set the playback parameters of the assigned file such as looping. By default they will play sound 1 through 20.
-
+| GP01 - GP20 | There are 2 banks of pins for a total of 20. Ground the corresponding GP pin to the ground pin below it to play back a WAV file assigned to that particular GP pin.
 
 ### Optional Connectors
 
@@ -163,12 +163,13 @@ Up to 20 triggering pins are availble on the GPStar Audio XL. They have JST-PH 2
 | TX2/RX2 | TX2/RX2 | Alternative serial communication port used for debugging. |
 | TEST |  | A button located on the lower right corner of the board. Pressing this button will play the first track on the micro SD card. |
 
-## Configuration file
-A configuration file is not required. However you can configure some settings by placing a `GPStarAudio.ini` configuration file into the root of the micro SD card. An example file can be found in this repository. If a configuration file is not found on the micro SD card the default settings are used.
+## Configuration file and syntax usage
+A configuration file is not required. However you can configure many settings by placing a GPStarAudio.ini configuration file into the root of the Micro SD Card. Many options can be set, such as the default volume, serial communication baud rate, LED settings and to how customising the GP action pins for how they handle playback.
 
-Many options can be set, such as the default output amplifier gain, serial communication baud rate, LED settings and to how the trigger pins handle playback.
+A example file can be found in this repository. When no configuration file is present on the Micro SD Card, then GPStar Audio XL will revert to all the standard default settings.
 
-The syntax of the file is very simple, using enclosed square brackets to setup configuration areas.
+The syntax of the file is very simple which use enclosed square brackets to setup configuration areas. 
+Example syntax is as follows:
 
 **[gpstarconfig]:** This area can set the general settings of the board. If none of these settings exist in the ini file, then the system will default to the default settings for each option.
 
@@ -180,20 +181,30 @@ The syntax of the file is very simple, using enclosed square brackets to setup c
 
 **led&#95;off:** Control whether the onboard status LED flashes or not during playback or non playback. Valid values are 0 for allowing the LED to function or `1` for disabling the LED. The default is `0`.
 
-## Trigger configuration
-Unique to GPStar Audio XL are the trigger pins. These can be setup so you can play sounds without any coding. You can also conigure the behaviour of these pins by setting them up into the GPStarAudio.ini configuration file. Please refer to the example configuration file located in this repository for usage.
+## GP pin configuration and usage
+Unique to GPStar Audio XL are the GP pins. These can be setup so you can play sounds without any coding. This area contains playback setup and configuration of the 20 GP pins. The pins are identified by gp1_ prefix in the ini file. The range is from gp1_ up to gp20_. Please refer to the example configuration file located in this repository for usage.
 
-Note that these do not need to be configured for the trigger pins to operate and if `GPStarAudio.ini` is not on the micro SD card the default settings are loaded for the trigger pins.
+Note that these do not need to be configured for the GP pins to operate and if `GPStarAudio.ini` is not on the micro SD card the default settings are loaded for the GP pins.
 
-**[gpstartracks]:** This area contains playback setup and configuration of the 20 trigger pins. The pins are identified by gp1_ prefix in the ini file. The range is from `gp1_` up to `gp20_`.
+**[gpstarmode]** Valid settings for this is `normal`, or `repeat`. Normal plays the track and it stops when it finishes. Repeat will make the track loop forever unless re activated again to do something else.
 
-**gp#&#95;playback:** Control how the playback is assigned to this trigger. Valid settings are `normal` or `loop`. `normal` will play the file until completion then it stops. `loop` will continuously loop the the audio until the pin is triggered again. Default is `normal`.
+**[gpstartrigger]** Control how the playback is assigned to this GP pin. Valid settings are `press` or `hold`. Pressing will activate the GP pin and play the track. Hold will also activate any setting assigned to the GP pin for the track, however releasing will make it perform an associated action setup with **[gpstarplayback]**. Default is `normal`.
 
-**gp#&#95;trigger:** Set how the audio is triggered. Valid settings are `press` or `hold`. With `press`, when you make contact between the trigger pin and the ground pin below it the audio file will play and will contiinue to play even when you release the contact between the trigger pin and ground pin. With `hold`, you need to make continuous contact between the trigger pin and ground pin for the audio to play, as releasing the contact will cause it to stop. Default is `press`.
+**[gpstarplayback]** This sets what the GP pin action will do if it is already playing a track associated with it. Valid settings are `stop`, `pause`, `restart`. When pause is used, activating the GP pin again will resume the playback of the track where it left off.
 
-**gp#&#95;file_number:** The track number on the microSD card. The default is the pin number of this trigger. For example, set this to `100` to play the wav file with the `100_` prefix.
+**[gpstartracks]** The track number on the MicroSD Card. The default is the pin number of this GP pin. For example, set this to 100 to play the wav file with the 100_ prefix.
 
-**gp#&#95;volume:** The default volume for the track. Valid ranges are `0` to `-59`, with `0` being the loudest and `-59` being the most quiet. The default is `0`.
+**[gpstartrackvolume]** The default volume for the individual track playback. Valid ranges are 0 to -59, with 0 being the loudest and -59 being the most quiet. The default is 0.
+
+## Preparing your audio files
+GPStar Audio plays audio from uncompressed WAV files from a MicroSD Card of any size formatted as FAT32. 
+Please note that MicroSD cards larger than 32GB often come formatted in exFAT. Please reformat these cards as FAT32 using 32KB block size. Mac and Linux users can format normally with their standard disk utility software. Windows users will need to use the FAT32 Format utility found on the gpstartechnologies.com support and downloads page to format cards with capacities larger than 32GB. 
+
+The currently supported WAV file format is 16 bit at 44.1kHz stereo. Other audio formats can be easily converted with any audio editor or free ones. All WAV files must be loaded onto the root of the MicroSD card and named appropriately with a prefixed number sequence of `###_filename.wav`. For example, `001_sound1.wav, 002_sound2.wav, 4000_sound3.wav`. The most and only important thing to remember in the naming is the `###_` prefix for all tracks. 
+
+You must also **remove** any metadata that may be present in the WAV files. This can be done in many free audio editors such as Audacity.
+
+**It is highly recommended to use high quality and fast MicroSD cards, otherwise audio playback can be slow or delayed. We recommend cards as fast or faster than Sandisk Extreme A1/A2 U3 V30.**
 
 ## Links
 
