@@ -1,6 +1,7 @@
+
 ## <img src='images/gpstar_logo.png' width=50 align="left"/> GPStar Audio - Serial Library
 
-This repository contains the serial communication control library for the [GPStar Audio](https://gpstartechnologies.com/products/gpstar-audio) and [GPStar Audio XL](https://gpstartechnologies.com/products/gpstar-audio-xl) series of audio boards from GPStar Technologies. They are compatible with Arduino and other microcontrollers and in the case of the XL version, sounds can be triggered from the bank of 20 available trigger pins.
+This repository contains the serial communication control library for the [GPStar Audio](https://gpstartechnologies.com/products/gpstar-audio) and [GPStar Audio XL](https://gpstartechnologies.com/products/gpstar-audio-xl) series of audio boards from GPStar Technologies. They are compatible with Arduino and other microcontrollers and in the case of the XL version, sounds can be triggered from the bank of 20 available GP pins.
 
 [![](images/gpstar_audio.png)](https://gpstartechnologies.com/products/gpstar-audio)
 
@@ -18,19 +19,17 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.serialFlush()** - Flushes the serial buffer of whichever serial UART is associated with this GPStarAudio instance.
 
-**GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. Various information is returned such as the number of tracks and version number. See next methods to check for the return values.
+**GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. See next method to check for the return value.
 
 **GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below).
-
-**GPStarAudio.getVersionNumber()** - Returns a `uint16_t` with the current firmware version of GPStar Audio. Available on firmware version 1.04 and up and returns `0` if not supported.
 
 **GPStarAudio.requestSystemInfo()** - Call this to have the GPStar Audio respond with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below). This function is provided for backwards compatibility with other polyphonic audio boards.
 
-**GPStarAudio.requestVersionString()** - This function is provided for backwards compatibility with other polyphonic audio boards and has no effect on a GPStar Audio board.
+**GPStarAudio.requestVersionString()** - Call this to have the GPStar Audio respond with an `RSP_VERSION_STRING` packet containing the current software version number. See next method to check for the return value.
 
-**GPStarAudio.getVersion(char\* version)** - Returns `false` for whether the `RSP_VERSION_STRING` packet was received. This function is provided for backwards compatibility with other polyphonic audio boards.
+**GPStarAudio.getVersion(char\* version)** - Returns a `bool` for whether the `RSP_VERSION_STRING` packet was received. Pass a `char` array of size `VERSION_STRING_LEN` as the parameter to store the version string value.
 
 **GPStarAudio.update()** - Calling this will process any incoming serial data from GPStar Audio. If you are using `currentTrackStatus()` calls, then you will want to call this often.
 
@@ -38,23 +37,13 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.masterGain(int16_t gain)** - This sets the master gain (in dB) of the audio output amplifier. The range is `-59` (quietest) to `24` (loudest). Note that `24` is only achievable using the speaker amplifier. If using the headphone jack, the output amplifier gain has a maximum of `18`.
 
-**GPStarAudio.trackPlaySolo(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
+**GPStarAudio.trackPlaySingle(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
 
-**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlaySingle(uint16_t trk, bool lock)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
 
-**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0` the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away.
+**GPStarAudio.trackPlay(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
 
-**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint_16 i_trk1_start_delay, uint16_t trk_2, bool loop_trk2, uint16_t trk2_start_time)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0` the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away. `trk_2` will be put into a queue. `trk2_start_time` is the time in milliseconds remaining before the end of the original `trk` which will then trigger `trk2` to start playing. Set `loop_trk2` to `true` to have the queued track loop or `false` for it to play only one time. The queued track will share the same track lock value as the first track. `trk` can only trigger the queue to play one time until it is reset again. You can still apply fade commands to the original preloaded `trk`.
-
-**GPStarAudio.trackPlayPoly(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
-
-**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
-
-**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0` the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away.
-
-**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint_16 i_trk1_start_delay, uint16_t trk_2, bool loop_trk2, uint16_t trk2_start_time)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. `i_trk_start_delay` is the time in milliseconds to delay playing the track. When the start delay is set above `0`, the system will pre-load the track then start playing it when the delay ends. Setting it to `0` will play the track right away. `trk_2` will be put into a queue. `trk2_start_time` is the time in milliseconds remaining before the end of the original `trk` which will then trigger `trk2` to start playing. Set `loop_trk2` to `true` to have the queued track loop or `false` for it to play only one time. The queued track will share the same track lock value as the first track. `trk` can only trigger the queue to play one time until it is reset again. You can still apply fade commands to the original preloaded `trk`.
-
-**GPStarAudio.trackQueueClear()** - This will clear out the track queue if you set another track to play immediately with the trackPlayPoly command.
+**GPStarAudio.trackPlay(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
 
 **GPStarAudio.trackStop(uint16_t trk)** - This stops the provided track number if it is currently playing and frees the channel it was using.
 
@@ -76,7 +65,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.resumeAllInSync()** - This will resume all tracks which are currently paused at the exact same time.
 
-**GPStarAudio.samplerateOffset(int16_t offset)** - This sets the sample-rate offset of the main output mix. The range for the offset is `-32767` to `32676`, giving a speed range of 1/2x to 2x or a pitch range of down one octave to up one octave. If audio is playing you will hear the result immediately. If audio is not playing, the new sample-rate offset will be used the next time a track is started.
+**GPStarAudio.samplerateOffset(uint16_t offset)** - This sets the sample-rate offset of the main output mix. The range for the offset is `-32767` to `32676`, giving a speed range of 1/2x to 2x or a pitch range of down one octave to up one octave. If audio is playing you will hear the result immediately. If audio is not playing, the new sample-rate offset will be used the next time a track is started.
 
 **GPStarAudio.setLED(bool status)** - You can turn off the LED status indicator by setting `status` to `false`. Passing `true` enables the LED again. By default the LED on GPStar Audio flashes and blinks to provide various status updates.
 
@@ -84,13 +73,9 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.gpstarTrackForce(bool status)** - Disabled by default. When enabled, GPStar Audio will forcibly take a audio channel when requested to play a new track even if all channels in use and locked.
 
-**GPStarAudio.trackPlayingStatus(uint16_t trk)** - This will ask GPStar Audio if the provided track number is playing. After calling this method, call the `GPStarAudio.currentTrackStatus(uint16_t trk)` method to find out if the track is playing or not. If the provided track number is not currently playing, this function will also set the internal track counter flag to `false` (see `isTrackCounterReset()`).
+**GPStarAudio.trackPlayingStatus(uint16_t trk)** - This will ask GPStar Audio if the provided track number is playing. After calling this method, call the `GPStarAudio.currentTrackStatus(uint16_t trk)` method to find out if the track is playing or not.
 
 **GPStarAudio.currentTrackStatus(uint16_t trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayingStatus(uint16_t trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
-
-**GPStarAudio.resetTrackCounter()** - Call this function to reset the state of the internal track counter flag. This is useful, for example, when you want to identify when a specific track has finished playing (such as for music playback). It is recommended to call this right before you start playing the track you intend to have the GPStar Audio follow the status of.
-
-**GPStarAudio.isTrackCounterReset()** - Call this function to see if the internal track counter flag has been reset. This will return `true` if the internal track counter flag has been reset by `resetTrackCounter()`. It will return `false` if `resetTrackCounter()` has never been called or if `trackPlayingStatus(trk)` was called on a track that is not currently playing.
 
 **GPStarAudio.setReporting(bool enable)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which always has track reporting enabled).
 
@@ -149,6 +134,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 | Label | Notes |
 |-------|-------|
+| 5V USB-C | A standard USB-C port for which you can provide 5V power. The recommended way to power GPStar Audio XL. |
 | VIN (12V-40V) | You can power the device through the DC barrel jack. It can accept voltage ranges from 12V up to 40V. You can also power the device via the UART connection mentioned above. |
 | BOOT/LOAD | A slide switch button. When set to BOOT the system will operate normally. When set to LOAD the system enters programming mode and allows you to flash updated firmware over the UART connection. Make sure it is set to BOOT afterwards for it to operate. |
 | SPKR-R | Right Speaker output from the onboard stereo amplifier. Capable of powering either a 4Ω 2.5W or 8Ω 1.25W speaker at 5V. |
@@ -160,16 +146,15 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 #### The on-board stereo amplifier is capable of powering either a 4Ω 2.5W or 8Ω 1.25W speaker at 5V from each channel.
 
 ---
-### Triggering Pins
+### How to use the GP Pins
 
-Up to 20 triggering pins are availble on the GPStar Audio XL. They have JST-PH 2.0mm spacing between each bank of 10 pins.
+Up to 20 GP pins are available on GPStar Audio XL. The GP pins have a standard 2.54mm spacing between each one. You can easily wire a standard SPDT switch or any other toggle switch, header pins or JST-XH connectors to make the connection to the GP pins.
 
-![](images/GPStarAudioXL_triggers.png)
+![](images/GPStarAudioXL_GPpins.png)
 
 | Label | Notes |
 |-------|-------|
-| T1 - T20 | You can manually trigger sounds assigned to these pins by connecting them to the below ground pin. You can do this easily with standard push buttons or switches. These pins can be configured in the configuration file that is placed on the micro SD card (see below) to play different sounds, and/or set the playback parameters of the assigned file such as looping. By default they will play sound 1 through 20.
-
+| GP01 - GP20 | There are 2 banks of pins for a total of 20. Ground the corresponding GP pin to the ground pin below it to play back a WAV file assigned to that particular GP pin.
 
 ### Optional Connectors
 
@@ -180,41 +165,12 @@ Up to 20 triggering pins are availble on the GPStar Audio XL. They have JST-PH 2
 | TEST |  | A button located on the lower right corner of the board. Pressing this button will play the first track on the micro SD card. |
 
 ## Configuration file and syntax usage
-A configuration file is not required. However you can configure some settings by placing a `GPStarAudio.ini` configuration file into the root of the micro SD card. An example file can be found in this repository. If a configuration file is not found on the micro SD card the default settings are used.
+A configuration file is not required. However you can configure many settings by placing a GPStarAudio.ini configuration file into the root of the Micro SD Card. Many options can be set, such as the default volume, serial communication baud rate, LED settings and to how customising the GP action pins for how they handle playback.
 
-Many options can be set, such as the default output amplifier gain, serial communication baud rate, LED settings and to how the trigger pins handle playback.
+A example file can be found in this repository. When no configuration file is present on the Micro SD Card, then GPStar Audio XL will revert to all the standard default settings.
 
-The syntax of the file is very simple, using enclosed square brackets to setup configuration areas.
-
+The syntax of the file is very simple which use enclosed square brackets to setup configuration areas. 
 Example syntax is as follows:
-
-**[gpstarconfig]**
-<br>volume&#95;amplifier = 10 
-<br>volume&#95;aux = 0 
-<br>serial&#95;baud&#95;rate = 57600 
-<br>led&#95;off = 0
-
-**[gpstarmode]**
-<br>gp1&#95;mode = repeat
-<br>gp2&#95;mode = normal
-
-**[gpstartrigger]**
-<br>gp1&#95;trigger = press
-<br>gp2&#95;trigger = hold
-
-**[gpstarplayback]**
-<br>gp1&#95;playback = stop 
-<br>gp2&#95;playback = pause
-
-**[gpstartracks]**
-<br>gp1&#95;track = 1 
-<br>gp2&#95;track = 100
-
-**[gpstartrackvolume]**
-<br>gp1&#95;volume = 0 
-<br>gp2&#95;volume = -25
-
-## System configuration
 
 **[gpstarconfig]:** This area can set the general settings of the board. If none of these settings exist in the ini file, then the system will default to the default settings for each option.
 
@@ -226,22 +182,30 @@ Example syntax is as follows:
 
 **led&#95;off:** Control whether the onboard status LED flashes or not during playback or non playback. Valid values are 0 for allowing the LED to function or `1` for disabling the LED. The default is `0`.
 
-## Triggering configuration
-Unique to GPStar Audio XL are the triggering pins. These can be setup so you can play sounds without any coding. You can also conigure the behaviour of these pins by setting them up into the GPStarAudio.ini configuration file. Please refer to the example configuration file located in this repository for usage.
+## GP pin configuration and usage
+Unique to GPStar Audio XL are the GP pins. These can be setup so you can play sounds without any coding. This area contains playback setup and configuration of the 20 GP pins. The pins are identified by gp1_ prefix in the ini file. The range is from gp1_ up to gp20_. Please refer to the example configuration file located in this repository for usage.
 
-Note that these do not need to be configured for the trigger pins to operate and if `GPStarAudio.ini` is not on the micro SD card the default settings are loaded for the trigger pins.
+Note that these do not need to be configured for the GP pins to operate and if `GPStarAudio.ini` is not on the micro SD card the default settings are loaded for the GP pins.
 
-This area contains playback setup and configuration of the 20 triggering pins. The pins are identified by gp1_ prefix in the ini file. The range is from `gp1_` up to `gp20_`.
+**[gpstarmode]** Valid settings for this is `normal`, or `repeat`. Normal plays the track and it stops when it finishes. Repeat will make the track loop forever unless re activated again to do something else.
 
-**[gpstarmode]:** Valid settings for this is `normal`, or `repeat`. Normal plays the track and it stops when it finishes. Repeat will make the track loop forever unless re triggered again to do something else.
+**[gpstartrigger]** Control how the playback is assigned to this GP pin. Valid settings are `press` or `hold`. Pressing will activate the GP pin and play the track. Hold will also activate any setting assigned to the GP pin for the track, however releasing will make it perform an associated action setup with **[gpstarplayback]**. Default is `normal`.
 
-**[gpstartrigger]:** Control how the playback is assigned to this trigger. Valid settings are `press` or `hold`. Press will trigger the pin and play the track. Hold will also trigger the track however releasing the trigger will make it perform an associated action setup with **[gpstarplayback]**.
+**[gpstarplayback]** This sets what the GP pin action will do if it is already playing a track associated with it. Valid settings are `stop`, `pause`, `restart`. When pause is used, activating the GP pin again will resume the playback of the track where it left off.
 
-**[gpstarplayback]:** This sets the what the trigger action will do if the trigger is already playing a track. Valid settings are `stop`, `pause`, `restart`. When pause is used, triggering it again will resume the playback of the track where it left off.
+**[gpstartracks]** The track number on the MicroSD Card. The default is the pin number of this GP pin. For example, set this to 100 to play the wav file with the 100_ prefix.
 
-**[gpstartracks]:** The track number on the MicroSD Card. The default is the pin number of this trigger. For example, set this to 100 to play the wav file with the 100_ prefix.
+**[gpstartrackvolume]** The default volume for the individual track playback. Valid ranges are 0 to -59, with 0 being the loudest and -59 being the most quiet. The default is 0.
 
-**[gpstartrackvolume]:** The default volume for the individual track playback. Valid ranges are 0 to -59, with 0 being the loudest and -59 being the most quiet. The default is 0.
+## Preparing your audio files
+GPStar Audio plays audio from uncompressed WAV files from a MicroSD Card of any size formatted as FAT32. 
+Please note that MicroSD cards larger than 32GB often come formatted in exFAT. Please reformat these cards as FAT32 using 32KB block size. Mac and Linux users can format normally with their standard disk utility software. Windows users will need to use the FAT32 Format utility found on the gpstartechnologies.com support and downloads page to format cards with capacities larger than 32GB. 
+
+The currently supported WAV file format is 16 bit at 44.1kHz stereo. Other audio formats can be easily converted with any audio editor or free ones. All WAV files must be loaded onto the root of the MicroSD card and named appropriately with a prefixed number sequence of `###_filename.wav`. For example, `001_sound1.wav, 002_sound2.wav, 4000_sound3.wav`. The most and only important thing to remember in the naming is the `###_` prefix for all tracks. 
+
+You must also **remove** any metadata that may be present in the WAV files. This can be done in many free audio editors such as Audacity.
+
+**It is highly recommended to use high quality and fast MicroSD cards, otherwise audio playback can be slow or delayed. We recommend cards as fast or faster than Sandisk Extreme A1/A2 U3 V30.**
 
 ## Links
 
