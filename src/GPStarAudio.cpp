@@ -85,12 +85,14 @@ void gpstarAudio::update(void) {
       }
     }
     else if((rxCount > 2) && (rxCount < rxLen)) {
-      if(dat == SOM1 || dat == SOM2 || dat == EOM) {
-        rxCount = 0; // Bad serial data.
+      rxMessage[rxCount - 3] = dat;
+      rxCount++;
+      
+      if(rxMessage[0] == RSP_GPSTAR_HELLO) {
+	      // Skip the extra check upon the GPStar hello check.
       }
-      else {
-        rxMessage[rxCount - 3] = dat;
-        rxCount++;
+      else if(dat == SOM1 || dat == SOM2 || dat == EOM) {
+        rxCount = 0; // Bad serial data.
       }
     }
     else if(rxCount == rxLen) {
