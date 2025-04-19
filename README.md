@@ -197,6 +197,10 @@ Note that these do not need to be configured for the GP pins to operate and if `
 
 **[gpstartrackvolume]** The default volume for the individual track playback. Valid ranges are 0 to -59, with 0 being the loudest and -59 being the most quiet. The default is 0.
 
+**[gpstarfade]** Control if a track does any fading. Valid settings are `nofade`, `fadeout`.
+
+**[gpstarfadeduration]** Set the duration in seconds of the track fade if enabled. The default is 0.
+
 ## Preparing your audio files
 GPStar Audio plays audio from uncompressed WAV files from a MicroSD Card of any size formatted as FAT32. 
 Please note that MicroSD cards larger than 32GB often come formatted in exFAT. Please reformat these cards as FAT32 using 32KB block size. Mac and Linux users can format normally with their standard disk utility software. Windows users will need to use the FAT32 Format utility found on the gpstartechnologies.com support and downloads page to format cards with capacities larger than 32GB. 
