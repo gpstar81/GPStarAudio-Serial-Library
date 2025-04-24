@@ -67,7 +67,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.samplerateOffset(uint16_t offset)** - This sets the sample-rate offset of the main output mix. The range for the offset is `-32767` to `32676`, giving a speed range of 1/2x to 2x or a pitch range of down one octave to up one octave. If audio is playing you will hear the result immediately. If audio is not playing, the new sample-rate offset will be used the next time a track is started.
 
-**GPStarAudio.setLED(bool status)** - You can turn off the LED status indicator by setting `status` to `false`. Passing `true` enables the LED again. By default the LED on GPStar Audio flashes and blinks to provide various status updates.
+**GPStarAudio.gpstarLEDStatus(bool status)** - You can turn off the LED status indicator by setting `status` to `false`. Passing `true` enables the LED again. By default the LED on GPStar Audio flashes and blinks to provide various status updates.
 
 **GPStarAudio.gpstarShortTrackOverload(bool status)** - Enabled by default. GPStar Audio will detect mulitple versions of the same sound playing in succession and prevent it from overloading and taking too many audio channels, instead replaying the file to save system resources.
 
