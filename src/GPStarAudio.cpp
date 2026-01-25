@@ -476,7 +476,7 @@ void gpstarAudio::trackGain(uint16_t trk, int16_t gain) {
   GPStarSerial->write(txbuf, 9);
 }
 
-void gpstarAudio::trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag) {
+void gpstarAudio::trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag = false) {
   uint8_t txbuf[12];
 
   txbuf[0] = SOM1;
