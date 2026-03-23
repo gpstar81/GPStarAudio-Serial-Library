@@ -78,7 +78,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.setTriggerBank(uint8_t bank)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which does not support creation of audio banks).
 
-### Legacy Commands depreciated commands. 
+### Legacy Commands (depreciated)
 **GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()`). This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.requestSystemInfo()** - Call this to have the a responds with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards. `This is no longer used by GPStar Audio.`
