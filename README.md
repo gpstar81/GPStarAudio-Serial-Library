@@ -21,15 +21,10 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. See next method to check for the return value.
 
-**GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below).
+**GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card and retrieves the current GPStar Audio firmware version (see `GPStarAudio.getNumTracks()` below).
 
-**GPStarAudio.requestSystemInfo()** - Call this to have the GPStar Audio respond with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards.
+**GPStarAudio.getVersionNumber()** - Returns a `uint16_t` of the GPStar Audio firmware version. You will want to call GPStarAudioHello() first to get the data.  `Requires GPStar Audio Firmware v1.06 or higher.`
 
-**GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()` below). This function is provided for backwards compatibility with other polyphonic audio boards.
-
-**GPStarAudio.requestVersionString()** - Call this to have the GPStar Audio respond with an `RSP_VERSION_STRING` packet containing the current software version number. See next method to check for the return value.
-
-**GPStarAudio.getVersion(char\* version)** - Returns a `bool` for whether the `RSP_VERSION_STRING` packet was received. Pass a `char` array of size `VERSION_STRING_LEN` as the parameter to store the version string value.
 
 **GPStarAudio.update()** - Calling this will process any incoming serial data from GPStar Audio. If you are using `currentTrackStatus()` calls, then you will want to call this often.
 
@@ -82,6 +77,15 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 **GPStarAudio.setAmpPwr(bool enable)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which uses a headphone sense circuit to dynamically switch between the headphone and speaker amplifiers).
 
 **GPStarAudio.setTriggerBank(uint8_t bank)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which does not support creation of audio banks).
+
+### Legacy Commands (depreciated)
+**GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()`). This function is provided for backwards compatibility with other polyphonic audio boards.
+
+**GPStarAudio.requestSystemInfo()** - Call this to have the a responds with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards. `This is no longer used by GPStar Audio.`
+
+**GPStarAudio.requestVersionString()** - Call this to have the GPStar Audio respond with an `RSP_VERSION_STRING` packet containing the current software version number. See next method to check for the return value. `This is no longer used by GPStar Audio.`
+
+**GPStarAudio.getVersion(char\* version)** - Returns a `bool` for whether the `RSP_VERSION_STRING` packet was received. Pass a `char` array of size `VERSION_STRING_LEN` as the parameter to store the version string value.  `This is no longer used by GPStar Audio.`
 
 ## <img src='images/gpstar_logo.png' width=50 align="left"/>GPStar Audio - Connection Details
 
