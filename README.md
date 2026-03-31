@@ -72,7 +72,9 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.currentTrackStatus(uint16_t trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayingStatus(uint16_t trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
 
-**GPStarAudio.setReporting(bool enable)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which always has track reporting enabled).
+**GPStarAudio.setReporting(bool enable)** - When enabled, GPStar Audio will report back and send updates about the status of tracks playing or stopping.
+
+**GPStarAudio.isTrackPlaying(uint16_t trk)** - Determine if a track is currently playing or not. setReporting() must be enabled for this to work.
 
 **GPStarAudio.setAmpPwr(bool enable)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which uses a headphone sense circuit to dynamically switch between the headphone and speaker amplifiers).
 
