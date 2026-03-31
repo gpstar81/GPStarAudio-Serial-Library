@@ -106,7 +106,7 @@ public:
   void trackResume(uint16_t trk);
   void trackLoop(uint16_t trk, bool enable);
   void trackGain(uint16_t trk, int16_t gain);
-  void trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag);
+  void trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag = false);
   void samplerateOffset(int16_t offset);
   void setTriggerBank(uint8_t bank);
   void trackPlayingStatus(uint16_t trk);
