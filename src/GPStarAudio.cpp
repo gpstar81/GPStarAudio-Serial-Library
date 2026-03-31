@@ -128,7 +128,6 @@ void gpstarAudio::update(void) {
         break;
 
         case RSP_TRACK_REPORT:
-          // WT.
           track = rxMessage[2];
           track = (track << 8) + rxMessage[1] + 1;
           voice = rxMessage[3];
