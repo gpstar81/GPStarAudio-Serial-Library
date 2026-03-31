@@ -31,7 +31,8 @@
 
 
 #include <AltSoftSerial.h> // When using AltSoftSerial.
-//#include <HardwareSerial.h> // When using hardware serial.
+AltSoftSerial altSerial;
+#include <HardwareSerial.h> // When using hardware serial.
 
 #include <GPStarAudio.h>
 gpstarAudio gpstar;
@@ -45,18 +46,19 @@ void setup() {
 
   // Please note: GPStar Audio uses 57600 baudrate by default. You can configure this by adding the setting to the Micro SD Card ini configuration file. Please see the README.MD file for more information.
 
-  AltSoftSerial.begin(57600); // When using AltSoftSerial.
-  gpstar.start(AltSoftSerial);
+  altSerial.begin(57600); // When using AltSoftSerial.
+  gpstar.start(altSerial);
 
   //Serial3.begin(57600); // When using hardware serial. Pick the serial port you want to use.
   //gpstar.start(Serial3);
+  Serial.begin(9600); // When using hardware serial. Pick the serial port you want to use.
 
   delay(10);
 
   // Allow time for hello command and other data to respond.
   gpstar.hello();
 
-  delay(350);
+  delay(400);
 
   if(gpstar.gpstarAudioHello()) {
     // Stop all tracks.
