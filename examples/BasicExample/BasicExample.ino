@@ -32,7 +32,7 @@
 
 #include <AltSoftSerial.h> // When using AltSoftSerial.
 AltSoftSerial altSerial;
-#include <HardwareSerial.h> // When using hardware serial.
+//#include <HardwareSerial.h> // When using hardware serial.
 
 #include <GPStarAudio.h>
 gpstarAudio gpstar;
@@ -51,7 +51,6 @@ void setup() {
 
   //Serial3.begin(57600); // When using hardware serial. Pick the serial port you want to use.
   //gpstar.start(Serial3);
-  Serial.begin(9600); // When using hardware serial. Pick the serial port you want to use.
 
   delay(10);
 
