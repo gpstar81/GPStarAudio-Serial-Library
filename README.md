@@ -1,7 +1,7 @@
 
 ## <img src='images/gpstar_logo.png' width=50 align="left"/> GPStar Audio - Serial Library
 
-This repository contains the serial communication control library for the [GPStar Audio](https://gpstartechnologies.com/products/gpstar-audio) and [GPStar Audio XL](https://gpstartechnologies.com/products/gpstar-audio-xl) series of audio boards from GPStar Technologies. They are compatible with Arduino and other microcontrollers and in the case of the XL version, sounds can be triggered from the bank of 20 available GP pins.
+This repository contains the serial communication control library for the [GPStar Audio](https://gpstartechnologies.com/products/gpstar-audio) and [GPStar Audio XL](https://gpstartechnologies.com/products/gpstar-audio-xl) series of audio boards from GPStar Technologies. They are compatible with Arduino and other microcontrollers and in the case of the XL version, sounds can be triggered from the bank of 20 available GPIO pins.
 
 [![](images/gpstar_audio.png)](https://gpstartechnologies.com/products/gpstar-audio)
 
@@ -15,30 +15,39 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.start(SerialObject)** - This must be called first to setup the serial communications. You must initalise the serial object and pass it to the function. Example: `Serial.begin(57600);` `GPStarAudio.start(Serial);`
 
-**GPStarAudio.flush()** - Flushes all data from the GPStarAudio instance. Note this is called automatically in `start()` and so should not be necessary after initialisation.
+**GPStarAudio.flush()** - Flushes all data from the GPStarAudio instance. Note this is called automatically in `GPStarAudio.start()` and so should not be necessary after initialisation.
 
 **GPStarAudio.serialFlush()** - Flushes the serial buffer of whichever serial UART is associated with this GPStarAudio instance.
 
 **GPStarAudio.hello()** - Call this to have the GPStar Audio respond with a hello request. See next method to check for the return value.
 
-**GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card and retrieves the current GPStar Audio firmware version (see `GPStarAudio.getNumTracks()` below).
+**GPStarAudio.gpstarAudioHello()** - Returns a `bool` for whether the `GPStarAudio.hello()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card and retrieves the current GPStar Audio firmware version (see `GPStarAudio.getNumTracks()` below).
 
-**GPStarAudio.getVersionNumber()** - Returns a `uint16_t` of the GPStar Audio firmware version. You will want to call GPStarAudioHello() first to get the data.  `Requires GPStar Audio Firmware v1.06 or higher.`
+**GPStarAudio.getVersionNumber()** - Returns a `uint16_t` of the GPStar Audio firmware version. You will want to call GPStarAudioHello() first to get the data. `Requires GPStar Audio Firmware v1.04 or higher.`
 
+**GPStarAudio.update()** - Calling this will process any incoming serial data from GPStar Audio. If you are using `GPStarAudio.currentTrackStatus()` calls, then you will want to call this often.
 
-**GPStarAudio.update()** - Calling this will process any incoming serial data from GPStar Audio. If you are using `currentTrackStatus()` calls, then you will want to call this often.
-
-**GPStarAudio.getNumTracks()** - This returns a `uint16_t` of the number of tracks on the micro SD card. Note that you must have called `hello()` followed by `gpstarAudioHello()` first for this to return a valid value.
+**GPStarAudio.getNumTracks()** - This returns a `uint16_t` of the number of tracks on the micro SD card. Note that you must have called `hello()` followed by `GPStarAudio.gpstarAudioHello()` first for this to return a valid value.
 
 **GPStarAudio.masterGain(int16_t gain)** - This sets the master gain (in dB) of the audio output amplifier. The range is `-59` (quietest) to `24` (loudest). Note that `24` is only achievable using the speaker amplifier. If using the headphone jack, the output amplifier gain has a maximum of `18`.
 
-**GPStarAudio.trackPlaySingle(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
+**GPStarAudio.trackPlaySolo(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
 
-**GPStarAudio.trackPlaySingle(uint16_t trk, bool lock)** - This will stop any tracks that are currently playing and play the selected track number provided. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
 
-**GPStarAudio.trackPlay(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - Same as above with the following addition: Specifying `i_trk_start_delay` will specify the number of milliseconds to delay playback for, giving time to "preload" the audio file into memory. This may be useful on low-performance SD cards. `Requires GPStar Audio Firmware v1.04 or higher.`
 
-**GPStarAudio.trackPlay(uint16_t trk, bool lock)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing. If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time)** - Same as above with the following addition: Setting `trk2` allows you to "queue" a second audio file to play once the first finishes playing, allowing seamless transition between tracks. `loop_trk2` defines whether the second track will loop forever, and `trk2_start_time` specifies how many milliseconds before the end of the first track the second track will begin playing. `Requires GPStar Audio Firmware v1.04 or higher.`
+
+**GPStarAudio.trackPlayPoly(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - Same as above with the following addition: Specifying `i_trk_start_delay` will specify the number of milliseconds to delay playback for, giving time to "preload" the audio file into memory. This may be useful on low-performance SD cards. `Requires GPStar Audio Firmware v1.04 or higher.`
+
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time)** - Same as above with the following addition: Setting `trk2` allows you to "queue" a second audio file to play once the first finishes playing, allowing seamless transition between tracks. `loop_trk2` defines whether the second track will loop forever, and `trk2_start_time` specifies how many milliseconds before the end of the first track the second track will begin playing. `Requires GPStar Audio Firmware v1.04 or higher.`
+
+**GPStarAudio.trackQueueClear()** - If `GPStarAudio.trackPlaySolo()` or `GPStarAudio.trackPlayPoly()` are called with the `trk2` parameters, calling this afterwards will clear out the queue to prevent the second track from playing when the first track finishes playback. `Requires GPStar Audio Firmware v1.04 or higher.`
 
 **GPStarAudio.trackStop(uint16_t trk)** - This stops the provided track number if it is currently playing and frees the channel it was using.
 
@@ -52,9 +61,9 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackFade(uint16_t trk, int16_t gain, uint16_t time, bool stopFlag)** - This will fade the currently playing provided track number. The track volume will logarithmically fade to the target gain you provide from whatever volume the track is already playing at. The `stopFlag` by default is `false` which will keep the track playing after the fade. Setting the `stopFlag` to `true` will make the track stop playing and free its channel after the fade has finished.
 
-**GPStarAudio.trackLoad(uint16_t trk)** - This will assign the provided track number to a channel paused. This can be useful when combined with the `resumeAllInSync()` method listed below.
+**GPStarAudio.trackLoad(uint16_t trk)** - This will assign the provided track number to a channel paused. This can be useful when combined with the `GPStarAudio.resumeAllInSync()` method listed below.
 
-**GPStarAudio.trackLoad(uint16_t trk, bool lock)** - This will assign the provided track number to a channel paused. If `lock` is set to `true`, the track will not not ever be unloaded from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. This can be useful when combined with the `resumeAllInSync()` method listed below.
+**GPStarAudio.trackLoad(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. This can be useful when combined with the `GPStarAudio.resumeAllInSync()` method listed below.
 
 **GPStarAudio.stopAllTracks()** - This will stop all tracks that are currently playing and free all channels.
 
@@ -72,16 +81,24 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.currentTrackStatus(uint16_t trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayingStatus(uint16_t trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
 
+**GPStarAudio.resetTrackCounter()** - Resets the flag for the track status counter. Useful to call this before calling `
+
+**GPStarAudio.isTrackCounterReset()** - This returns a `bool` of whether the internal track counter variable has been reset. It will return `true` after `GPStarAudio.resetTrackCounter()` above has been called, and will return `false` once the response from `GPStarAudio.trackPlayingStatus()` has been received.
+
 **GPStarAudio.setReporting(bool enable)** - When enabled, GPStar Audio will report back and send updates about the status of tracks playing or stopping.
 
-**GPStarAudio.isTrackPlaying(uint16_t trk)** - Determine if a track is currently playing or not. setReporting() must be enabled for this to work.
+**GPStarAudio.isTrackPlaying(uint16_t trk)** - Determine if a track is currently playing or not. `GPStarAudio.setReporting()` must be enabled for this to work.
 
 **GPStarAudio.setAmpPwr(bool enable)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which uses a headphone sense circuit to dynamically switch between the headphone and speaker amplifiers).
 
 **GPStarAudio.setTriggerBank(uint8_t bank)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which does not support creation of audio banks).
 
-### Legacy Commands (depreciated)
-**GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()`). This function is provided for backwards compatibility with other polyphonic audio boards.
+### Legacy Commands (deprecated)
+**GPStarAudio.resetTrackCounter(bool bReset)** - Identical to `GPStarAudio.resetTrackCounter()` above as the boolean parameter is ignored (always set to `true`). `Please call this without a parameter instead.`
+
+**GPStarAudio.trackCounterReset()** - Identical to `GPStarAudio.isTrackCounterReset()` above. This command was deprecated because it was too easily confused with `GPStarAudio.resetTrackCounter()`. `Please use GPStarAudio.isTrackCounterReset() instead.`
+
+**GPStarAudio.wasSysInfoRcvd()** - Returns a `bool` for whether the `GPStarAudio.requestSystemInfo()` command was accepted by the GPStar Audio and if `true` populates the variable for the total number of tracks on the micro SD card (see `GPStarAudio.getNumTracks()`). This function is provided for backwards compatibility with other polyphonic audio boards.
 
 **GPStarAudio.requestSystemInfo()** - Call this to have the a responds with an `RSP_SYSTEM_INFO` packet. This function is provided for backwards compatibility with other polyphonic audio boards. `This is no longer used by GPStar Audio.`
 
