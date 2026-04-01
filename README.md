@@ -33,7 +33,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackPlaySolo(uint16_t trk)** - This will stop any tracks that are currently playing and play the selected track number provided.
 
-**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlaySolo(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. By default, `lock` is `false`.
 
 **GPStarAudio.trackPlaySolo(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - Same as above with the following addition: Specifying `i_trk_start_delay` will specify the number of milliseconds to delay playback for, giving time to "preload" the audio file into memory. This may be useful on low-performance SD cards. `Requires GPStar Audio Firmware v1.04 or higher.`
 
@@ -41,7 +41,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackPlayPoly(uint16_t trk)** - This will play the provided track number, mixing and overlaying it with any other tracks that are currently playing.
 
-**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop.
+**GPStarAudio.trackPlayPoly(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded or stopped from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. By default, `lock` is `false`.
 
 **GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay)** - Same as above with the following addition: Specifying `i_trk_start_delay` will specify the number of milliseconds to delay playback for, giving time to "preload" the audio file into memory. This may be useful on low-performance SD cards. `Requires GPStar Audio Firmware v1.04 or higher.`
 
@@ -63,7 +63,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackLoad(uint16_t trk)** - This will assign the provided track number to a channel paused. This can be useful when combined with the `GPStarAudio.resumeAllInSync()` method listed below.
 
-**GPStarAudio.trackLoad(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. This can be useful when combined with the `GPStarAudio.resumeAllInSync()` method listed below.
+**GPStarAudio.trackLoad(uint16_t trk, bool lock)** - Same as above with the following addition: If `lock` is set to `true`, the track will not not ever be unloaded from the channel it has acquired if the maximum number of channels are in use unless you manually tell the track to stop. By default, `lock` is `false`. This function can be useful when combined with the `GPStarAudio.resumeAllInSync()` method listed below.
 
 **GPStarAudio.stopAllTracks()** - This will stop all tracks that are currently playing and free all channels.
 
