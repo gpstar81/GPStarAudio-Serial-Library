@@ -81,7 +81,7 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.currentTrackStatus(uint16_t trk)** - This will retrieve the status of a the provided track number if it is playing. You will want to use the `GPStarAudio.trackPlayingStatus(uint16_t trk)` method first to ask if the provided track is playing, then call this method soon after to retrieve the response.
 
-**GPStarAudio.resetTrackCounter()** - Resets the flag for the track status counter. Useful to call this before calling `
+**GPStarAudio.resetTrackCounter()** - Resets the flag for the track status counter. Useful to call this before calling `GPStarAudio.trackPlayingStatus()`, as you can then call `GPStarAudio.isTrackCounterReset()` to determine if the new track playing status information has been received.
 
 **GPStarAudio.isTrackCounterReset()** - This returns a `bool` of whether the internal track counter variable has been reset. It will return `true` after `GPStarAudio.resetTrackCounter()` above has been called, and will return `false` once the response from `GPStarAudio.trackPlayingStatus()` has been received.
 
