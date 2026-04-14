@@ -359,6 +359,38 @@ void gpstarAudio::trackLoop(uint16_t trk, bool enable) {
   }
 }
 
+void gpstarAudio::trackRapidPlay(uint16_t trk, uint16_t i_rapid_delay) {
+  uint8_t txbuf[10];
+
+  txbuf[0] = SOM1;
+  txbuf[1] = SOM2;
+  txbuf[2] = 0x0a;
+  txbuf[3] = CMD_TRACK_CONTROL;
+  txbuf[4] = TRK_RAPID_PLAY;
+  txbuf[5] = (uint8_t)trk;
+  txbuf[6] = (uint8_t)(trk >> 8);
+  txbuf[7] = (uint8_t)i_rapid_delay;
+  txbuf[8] = (uint8_t)(i_rapid_delay >> 8);
+  txbuf[9] = EOM;
+  GPStarSerial->write(txbuf, 10);
+}
+
+void gpstarAudio::trackRapidDelay(uint16_t trk, uint16_t i_rapid_delay) {
+  uint8_t txbuf[10];
+
+  txbuf[0] = SOM1;
+  txbuf[1] = SOM2;
+  txbuf[2] = 0x0a;
+  txbuf[3] = CMD_TRACK_CONTROL;
+  txbuf[4] = TRK_RAPID_DELAY;
+  txbuf[5] = (uint8_t)trk;
+  txbuf[6] = (uint8_t)(trk >> 8);
+  txbuf[7] = (uint8_t)i_rapid_delay;
+  txbuf[8] = (uint8_t)(i_rapid_delay >> 8);
+  txbuf[9] = EOM;
+  GPStarSerial->write(txbuf, 10);
+}
+
 void gpstarAudio::trackControl(uint16_t trk, uint8_t code) {
   uint8_t txbuf[8];
 
