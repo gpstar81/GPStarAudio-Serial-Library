@@ -57,6 +57,8 @@
 #define TRK_LOOP_ON              5
 #define TRK_LOOP_OFF             6
 #define TRK_LOAD                 7
+#define TRK_RAPID_PLAY           8
+#define TRK_RAPID_DELAY          9
 
 #define RSP_VERSION_STRING     129
 #define RSP_SYSTEM_INFO        130
@@ -98,6 +100,8 @@ public:
   void trackPlayPoly(uint16_t trk, bool lock);
   void trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay);
   void trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time);
+  void trackRapidPlay(uint16_t trk, uint16_t i_rapid_delay);
+  void trackRapidDelay(uint16_t trk, uint16_t i_rapid_delay);
   void trackQueueClear(void);
   void trackLoad(uint16_t trk);
   void trackLoad(uint16_t trk, bool lock);

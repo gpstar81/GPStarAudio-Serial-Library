@@ -47,6 +47,10 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 
 **GPStarAudio.trackPlayPoly(uint16_t trk, bool lock, uint16_t i_trk_start_delay, uint16_t trk2, bool loop_trk2, uint16_t trk2_start_time)** - Same as above with the following addition: Setting `trk2` allows you to "queue" a second audio file to play once the first finishes playing, allowing seamless transition between tracks. `loop_trk2` defines whether the second track will loop forever, and `trk2_start_time` specifies how many milliseconds before the end of the first track the second track will begin playing. `Requires GPStar Audio Firmware v1.04 or higher.`
 
+**GPStarAudio.trackRapidPlay(uint16_t trk, uint16_t i_rapid_delay)** - This will tell GPStar Audio to take two channels with the same track, locks them and sets them to repeat. The first channel plays first and when the rapid delay timer ends, it will trigger the second channel to start playing, while channel 1 still continues to play. When the timer for channel 2 ends, it will tell channel 1 to rewind and play again. This process will continue until you tell the track to stop or turn off track looping for the track which allows the channels to finish playing out. `Requires GPStar Audio Firmware v1.09 or higher.`
+
+**GPStarAudio.trackRapidDelay(uint16_t trk, uint16_t i_rapid_delay)** - This updates the rapid delay timers for the track that is using trackRapidPlay. `Requires GPStar Audio Firmware v1.09 or higher.`
+
 **GPStarAudio.trackQueueClear()** - If `GPStarAudio.trackPlaySolo()` or `GPStarAudio.trackPlayPoly()` are called with the `trk2` parameters, calling this afterwards will clear out the queue to prevent the second track from playing when the first track finishes playback. `Requires GPStar Audio Firmware v1.04 or higher.`
 
 **GPStarAudio.trackStop(uint16_t trk)** - This stops the provided track number if it is currently playing and frees the channel it was using.
@@ -105,6 +109,8 @@ Example code to demonstrate some of the GPStar Audio's features can be found in 
 **GPStarAudio.requestVersionString()** - Call this to have the GPStar Audio respond with an `RSP_VERSION_STRING` packet containing the current software version number. See next method to check for the return value. `This is no longer used by GPStar Audio.`
 
 **GPStarAudio.getVersion(char\* version)** - Returns a `bool` for whether the `RSP_VERSION_STRING` packet was received. Pass a `char` array of size `VERSION_STRING_LEN` as the parameter to store the version string value.  `This is no longer used by GPStar Audio.`
+
+**GPStarAudio.setTriggerBank(uint8_t bank)** - Provided for backwards compatibility with existing polyphonic audio boards, but has no effect on GPStar Audio (which does not support creation of audio banks).
 
 ## <img src='images/gpstar_logo.png' width=50 align="left"/>GPStar Audio - Connection Details
 
