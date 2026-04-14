@@ -39,7 +39,6 @@ gpstarAudio gpstar;
 
 bool b_gpstar_audio_found = false;
 int i_number_of_tracks = 0;
-bool b_temp = false;
 
 void setup() {
   // A quick delay to allow GPStar Audio to boot up.
