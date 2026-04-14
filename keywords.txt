@@ -28,6 +28,8 @@ stopAllTracks	KEYWORD2
 resumeAllInSync	KEYWORD2
 trackPlaySolo	KEYWORD2
 trackPlayPoly	KEYWORD2
+trackRapidPlay	KEYWORD2
+trackRapidDelay	KEYWORD2
 trackQueueClear	KEYWORD2
 trackLoad	KEYWORD2
 trackStop	KEYWORD2
