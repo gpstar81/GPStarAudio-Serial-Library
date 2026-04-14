@@ -69,7 +69,7 @@ void setup() {
   }
 }
 
-void loop() {  
+void loop() {
   if(b_gpstar_audio_found == true) {
     // Play track 1 at 100% volume and set it to loop.
     gpstar.trackGain(1, 0);
